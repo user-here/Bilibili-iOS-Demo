@@ -1,4 +1,24 @@
 #import "HomeViewController.h"
+#import "Views/BLFeedbackPanelView.h"
+#import "Views/BLAnimePageView.h"
+#import "Views/BLFilmPageView.h"
+#import "Views/BLHotPageView.h"
+#import "Views/BLLivePageView.h"
+#import "Views/BLSearchPageView.h"
+#import "Views/BLVideoDetailViewController.h"
+#import "Views/BLFollowingPageView.h"
+#import "Views/BLPublishPageView.h"
+#import "Views/BLMallPageView.h"
+#import "Views/BLMallSearchPageView.h"
+#import "Views/BLMallCouponPageView.h"
+#import "Views/BLMinePageView.h"
+#import "Views/BLHistoryPageView.h"
+#import "Views/BLFavoritePageView.h"
+#import "Views/BLOfflineCachePageView.h"
+#import "Views/BLWatchLaterPageView.h"
+#import "Views/BLProfileSpacePageView.h"
+#import "Views/BLMemberCenterPageView.h"
+#import "Views/BLContactServicePageView.h"
 #import <QuartzCore/QuartzCore.h>
 
 static UIColor *BLPink(void) {
@@ -8,6 +28,8 @@ static UIColor *BLPink(void) {
 static UIColor *BLText(void) {
     return [UIColor colorWithRed:0.16 green:0.16 blue:0.18 alpha:1.0];
 }
+
+static NSString * const BLDefaultVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
 
 @interface BLVideoItem : NSObject
 @property (nonatomic, copy) NSString *title;
@@ -60,12 +82,53 @@ static UIColor *BLText(void) {
 
 @end
 
-@interface HomeViewController ()
+@interface HomeViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) UIView *topBar;
 @property (nonatomic, strong) UIScrollView *feedScrollView;
 @property (nonatomic, strong) UIStackView *feedStackView;
+@property (nonatomic, strong) BLLivePageView *livePageView;
+@property (nonatomic, strong) BLHotPageView *hotPageView;
+@property (nonatomic, strong) BLAnimePageView *animePageView;
+@property (nonatomic, strong) BLFilmPageView *filmPageView;
+@property (nonatomic, strong) BLFollowingPageView *followingPageView;
+@property (nonatomic, strong) BLMallPageView *mallPageView;
+@property (nonatomic, strong) BLMinePageView *minePageView;
 @property (nonatomic, strong) UIView *bottomBar;
+@property (nonatomic, strong) UILabel *followingBadgeLabel;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImageView *> *bottomTabIcons;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UILabel *> *bottomTabLabels;
+@property (nonatomic, copy) NSString *selectedBottomTab;
 @property (nonatomic, strong) NSArray<BLVideoItem *> *items;
+@property (nonatomic, strong) NSMutableArray<UILabel *> *categoryLabels;
+@property (nonatomic, strong) NSMutableArray<UIView *> *categoryIndicators;
+@property (nonatomic, copy) NSString *selectedCategory;
+@property (nonatomic, assign) BOOL featuredLiked;
+@property (nonatomic, assign) NSInteger featuredLikeCount;
+@property (nonatomic, strong) UIButton *featuredLikeButton;
+@property (nonatomic, strong) UILabel *featuredLikeCountLabel;
+@property (nonatomic, strong) BLFeedbackPanelView *feedbackPanelView;
+@property (nonatomic, strong) BLSearchPageView *searchPageView;
+@property (nonatomic, strong) NSLayoutConstraint *searchPageLeadingConstraint;
+@property (nonatomic, strong) BLPublishPageView *publishPageView;
+@property (nonatomic, strong) NSLayoutConstraint *publishPageLeadingConstraint;
+@property (nonatomic, strong) BLMallSearchPageView *mallSearchPageView;
+@property (nonatomic, strong) NSLayoutConstraint *mallSearchPageLeadingConstraint;
+@property (nonatomic, strong) BLMallCouponPageView *mallCouponPageView;
+@property (nonatomic, strong) NSLayoutConstraint *mallCouponPageLeadingConstraint;
+@property (nonatomic, strong) BLOfflineCachePageView *offlineCachePageView;
+@property (nonatomic, strong) NSLayoutConstraint *offlineCachePageLeadingConstraint;
+@property (nonatomic, strong) BLWatchLaterPageView *watchLaterPageView;
+@property (nonatomic, strong) NSLayoutConstraint *watchLaterPageLeadingConstraint;
+@property (nonatomic, strong) BLHistoryPageView *historyPageView;
+@property (nonatomic, strong) NSLayoutConstraint *historyPageLeadingConstraint;
+@property (nonatomic, strong) BLFavoritePageView *favoritePageView;
+@property (nonatomic, strong) NSLayoutConstraint *favoritePageLeadingConstraint;
+@property (nonatomic, strong) BLProfileSpacePageView *profileSpacePageView;
+@property (nonatomic, strong) NSLayoutConstraint *profileSpacePageLeadingConstraint;
+@property (nonatomic, strong) BLMemberCenterPageView *memberCenterPageView;
+@property (nonatomic, strong) NSLayoutConstraint *memberCenterPageLeadingConstraint;
+@property (nonatomic, strong) BLContactServicePageView *contactServicePageView;
+@property (nonatomic, strong) NSLayoutConstraint *contactServicePageLeadingConstraint;
 @end
 
 @implementation HomeViewController
@@ -73,10 +136,27 @@ static UIColor *BLText(void) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.featuredLikeCount = 359;
+    self.selectedCategory = @"推荐";
+    self.selectedBottomTab = @"house";
     [self buildData];
     [self buildTopBar];
     [self buildFeed];
     [self buildBottomBar];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.followingPageView != nil && !self.followingPageView.hidden) {
+        [self.followingPageView activate];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.followingPageView deactivate];
+    [self.publishPageView deactivate];
+    [self.memberCenterPageView deactivate];
 }
 
 - (void)buildData {
@@ -116,6 +196,11 @@ static UIColor *BLText(void) {
     [avatar addSubview:avatarText];
     avatarText.translatesAutoresizingMaskIntoConstraints = NO;
 
+    UIButton *avatarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    avatarButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [avatarButton addTarget:self action:@selector(showProfileSpacePage) forControlEvents:UIControlEventTouchUpInside];
+    [avatar addSubview:avatarButton];
+
     UIView *searchBox = [[UIView alloc] init];
     searchBox.translatesAutoresizingMaskIntoConstraints = NO;
     searchBox.backgroundColor = [UIColor whiteColor];
@@ -129,6 +214,11 @@ static UIColor *BLText(void) {
 
     UILabel *searchText = [self labelWithText:@"deepseek限制次数" font:[UIFont systemFontOfSize:20.0 weight:UIFontWeightRegular] color:[UIColor colorWithWhite:0.42 alpha:1.0]];
     [searchBox addSubview:searchText];
+
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [searchButton addTarget:self action:@selector(showSearchPage) forControlEvents:UIControlEventTouchUpInside];
+    [searchBox addSubview:searchButton];
 
     UIButton *gameButton = [self topIconButton:@"gamecontroller"];
     UIButton *messageButton = [self topIconButton:@"envelope"];
@@ -147,9 +237,11 @@ static UIColor *BLText(void) {
     categoryStack.alignment = UIStackViewAlignmentCenter;
     [categoryScroll addSubview:categoryStack];
 
+    self.categoryLabels = [NSMutableArray array];
+    self.categoryIndicators = [NSMutableArray array];
     NSArray<NSString *> *tabs = @[@"直播", @"推荐", @"热门", @"动画", @"影视", @"毕业歌会", @"新征程"];
     for (NSString *tab in tabs) {
-        [categoryStack addArrangedSubview:[self categoryViewWithTitle:tab selected:[tab isEqualToString:@"推荐"]]];
+        [categoryStack addArrangedSubview:[self categoryViewWithTitle:tab selected:[tab isEqualToString:self.selectedCategory]]];
     }
 
     UIButton *menuButton = [self topIconButton:@"line.3.horizontal"];
@@ -173,6 +265,10 @@ static UIColor *BLText(void) {
         [avatar.heightAnchor constraintEqualToConstant:44.0],
         [avatarText.centerXAnchor constraintEqualToAnchor:avatar.centerXAnchor],
         [avatarText.centerYAnchor constraintEqualToAnchor:avatar.centerYAnchor],
+        [avatarButton.topAnchor constraintEqualToAnchor:avatar.topAnchor],
+        [avatarButton.leadingAnchor constraintEqualToAnchor:avatar.leadingAnchor],
+        [avatarButton.trailingAnchor constraintEqualToAnchor:avatar.trailingAnchor],
+        [avatarButton.bottomAnchor constraintEqualToAnchor:avatar.bottomAnchor],
 
         [searchBox.leadingAnchor constraintEqualToAnchor:avatar.trailingAnchor constant:14.0],
         [searchBox.centerYAnchor constraintEqualToAnchor:avatar.centerYAnchor],
@@ -186,6 +282,10 @@ static UIColor *BLText(void) {
         [searchText.leadingAnchor constraintEqualToAnchor:searchIcon.trailingAnchor constant:12.0],
         [searchText.centerYAnchor constraintEqualToAnchor:searchBox.centerYAnchor],
         [searchText.trailingAnchor constraintLessThanOrEqualToAnchor:searchBox.trailingAnchor constant:-16.0],
+        [searchButton.topAnchor constraintEqualToAnchor:searchBox.topAnchor],
+        [searchButton.leadingAnchor constraintEqualToAnchor:searchBox.leadingAnchor],
+        [searchButton.trailingAnchor constraintEqualToAnchor:searchBox.trailingAnchor],
+        [searchButton.bottomAnchor constraintEqualToAnchor:searchBox.bottomAnchor],
 
         [messageButton.trailingAnchor constraintEqualToAnchor:self.topBar.trailingAnchor constant:-16.0],
         [messageButton.centerYAnchor constraintEqualToAnchor:avatar.centerYAnchor],
@@ -250,11 +350,152 @@ static UIColor *BLText(void) {
     }
 }
 
+- (void)buildLivePageIfNeeded {
+    if (self.livePageView != nil) {
+        return;
+    }
+    self.livePageView = [[BLLivePageView alloc] init];
+    self.livePageView.hidden = YES;
+    [self.view addSubview:self.livePageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.livePageView.topAnchor constraintEqualToAnchor:self.topBar.bottomAnchor],
+        [self.livePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.livePageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.livePageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildHotPageIfNeeded {
+    if (self.hotPageView != nil) {
+        return;
+    }
+    self.hotPageView = [[BLHotPageView alloc] init];
+    self.hotPageView.hidden = YES;
+    [self.view addSubview:self.hotPageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.hotPageView.topAnchor constraintEqualToAnchor:self.topBar.bottomAnchor],
+        [self.hotPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.hotPageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.hotPageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildAnimePageIfNeeded {
+    if (self.animePageView != nil) {
+        return;
+    }
+    self.animePageView = [[BLAnimePageView alloc] init];
+    self.animePageView.hidden = YES;
+    [self.view addSubview:self.animePageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.animePageView.topAnchor constraintEqualToAnchor:self.topBar.bottomAnchor],
+        [self.animePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.animePageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.animePageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildFilmPageIfNeeded {
+    if (self.filmPageView != nil) {
+        return;
+    }
+    self.filmPageView = [[BLFilmPageView alloc] init];
+    self.filmPageView.hidden = YES;
+    [self.view addSubview:self.filmPageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.filmPageView.topAnchor constraintEqualToAnchor:self.topBar.bottomAnchor],
+        [self.filmPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.filmPageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.filmPageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildFollowingPageIfNeeded {
+    if (self.followingPageView != nil) {
+        return;
+    }
+    self.followingPageView = [[BLFollowingPageView alloc] init];
+    self.followingPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.followingPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
+        [weakSelf.followingPageView deactivate];
+        [weakSelf openPlayerWithURL:URL title:title author:author];
+    };
+    [self.view addSubview:self.followingPageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.followingPageView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+        [self.followingPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.followingPageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.followingPageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildMallPageIfNeeded {
+    if (self.mallPageView != nil) {
+        return;
+    }
+    self.mallPageView = [[BLMallPageView alloc] init];
+    self.mallPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.mallPageView.searchTapped = ^{
+        [weakSelf showMallSearchPage];
+    };
+    self.mallPageView.couponTapped = ^{
+        [weakSelf showMallCouponPage];
+    };
+    [self.view addSubview:self.mallPageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.mallPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.mallPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.mallPageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.mallPageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
+- (void)buildMinePageIfNeeded {
+    if (self.minePageView != nil) {
+        return;
+    }
+    self.minePageView = [[BLMinePageView alloc] init];
+    self.minePageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.minePageView.offlineCacheTapped = ^{
+        [weakSelf showOfflineCachePage];
+    };
+    self.minePageView.historyTapped = ^{
+        [weakSelf showHistoryPage];
+    };
+    self.minePageView.favoriteTapped = ^{
+        [weakSelf showFavoritePage];
+    };
+    self.minePageView.watchLaterTapped = ^{
+        [weakSelf showWatchLaterPage];
+    };
+    self.minePageView.profileTapped = ^{
+        [weakSelf showProfileSpacePage];
+    };
+    self.minePageView.memberCenterTapped = ^{
+        [weakSelf showMemberCenterPage];
+    };
+    self.minePageView.contactServiceTapped = ^{
+        [weakSelf showContactServicePage];
+    };
+    [self.view addSubview:self.minePageView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.minePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.minePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.minePageView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.minePageView.bottomAnchor constraintEqualToAnchor:self.bottomBar.topAnchor]
+    ]];
+}
+
 - (void)buildBottomBar {
     self.bottomBar = [[UIView alloc] init];
     self.bottomBar.translatesAutoresizingMaskIntoConstraints = NO;
     self.bottomBar.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.bottomBar];
+    self.bottomTabIcons = [NSMutableDictionary dictionary];
+    self.bottomTabLabels = [NSMutableDictionary dictionary];
 
     UIStackView *tabs = [[UIStackView alloc] init];
     tabs.translatesAutoresizingMaskIntoConstraints = NO;
@@ -268,6 +509,7 @@ static UIColor *BLText(void) {
     [tabs addArrangedSubview:[self uploadTab]];
     [tabs addArrangedSubview:[self bottomTabWithTitle:@"会员购" symbol:@"bag" selected:NO badge:nil]];
     [tabs addArrangedSubview:[self bottomTabWithTitle:@"我的" symbol:@"tv" selected:NO badge:nil]];
+    [self updateBottomTabSelection:self.selectedBottomTab];
 
     UIView *homeIndicator = [[UIView alloc] init];
     homeIndicator.translatesAutoresizingMaskIntoConstraints = NO;
@@ -307,6 +549,7 @@ static UIColor *BLText(void) {
 
 - (UIView *)featuredCardWithItem:(BLVideoItem *)item {
     UIView *card = [self cardContainer];
+    [self addOpenPlayerButtonToCard:card item:item];
     BLGradientView *cover = [self coverViewWithItem:item compact:NO];
     [card addSubview:cover];
 
@@ -314,11 +557,24 @@ static UIColor *BLText(void) {
     title.numberOfLines = 2;
     [card addSubview:title];
 
-    UIImageView *likeIcon = [self imageViewWithSystemName:@"hand.thumbsup.fill" pointSize:28.0 color:[UIColor colorWithWhite:0.50 alpha:1.0]];
-    [card addSubview:likeIcon];
+    UIStackView *likeStack = [[UIStackView alloc] init];
+    likeStack.translatesAutoresizingMaskIntoConstraints = NO;
+    likeStack.axis = UILayoutConstraintAxisHorizontal;
+    likeStack.alignment = UIStackViewAlignmentCenter;
+    likeStack.spacing = 4.0;
+    [card addSubview:likeStack];
 
-    UILabel *likeCount = [self labelWithText:@"359" font:[UIFont systemFontOfSize:14.0 weight:UIFontWeightRegular] color:[UIColor colorWithWhite:0.50 alpha:1.0]];
-    [card addSubview:likeCount];
+    self.featuredLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.featuredLikeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.featuredLikeButton.adjustsImageWhenHighlighted = NO;
+    self.featuredLikeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.featuredLikeButton addTarget:self action:@selector(featuredLikeTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [likeStack addArrangedSubview:self.featuredLikeButton];
+
+    self.featuredLikeCountLabel = [self labelWithText:[self formattedLikeCount] font:[UIFont systemFontOfSize:14.0 weight:UIFontWeightRegular] color:[UIColor colorWithWhite:0.50 alpha:1.0]];
+    self.featuredLikeCountLabel.textAlignment = NSTextAlignmentLeft;
+    [likeStack addArrangedSubview:self.featuredLikeCountLabel];
+    [self updateFeaturedLikeAppearanceAnimated:NO];
 
     UIButton *more = [self moreButton];
     [card addSubview:more];
@@ -330,16 +586,16 @@ static UIColor *BLText(void) {
         [cover.heightAnchor constraintEqualToAnchor:cover.widthAnchor multiplier:0.56],
         [title.leadingAnchor constraintEqualToAnchor:card.leadingAnchor constant:14.0],
         [title.topAnchor constraintEqualToAnchor:cover.bottomAnchor constant:12.0],
-        [title.trailingAnchor constraintEqualToAnchor:likeIcon.leadingAnchor constant:-16.0],
+        [title.trailingAnchor constraintEqualToAnchor:likeStack.leadingAnchor constant:-12.0],
         [title.bottomAnchor constraintEqualToAnchor:card.bottomAnchor constant:-18.0],
-        [likeIcon.trailingAnchor constraintEqualToAnchor:likeCount.leadingAnchor constant:-4.0],
-        [likeIcon.centerYAnchor constraintEqualToAnchor:title.centerYAnchor],
-        [likeIcon.widthAnchor constraintEqualToConstant:30.0],
-        [likeIcon.heightAnchor constraintEqualToConstant:30.0],
-        [likeCount.trailingAnchor constraintEqualToAnchor:more.leadingAnchor constant:-18.0],
-        [likeCount.centerYAnchor constraintEqualToAnchor:likeIcon.centerYAnchor],
+        [likeStack.trailingAnchor constraintEqualToAnchor:more.leadingAnchor constant:-10.0],
+        [likeStack.centerYAnchor constraintEqualToAnchor:title.centerYAnchor],
+        [likeStack.widthAnchor constraintEqualToConstant:70.0],
+        [self.featuredLikeButton.widthAnchor constraintEqualToConstant:30.0],
+        [self.featuredLikeButton.heightAnchor constraintEqualToConstant:30.0],
+        [self.featuredLikeCountLabel.widthAnchor constraintGreaterThanOrEqualToConstant:30.0],
         [more.trailingAnchor constraintEqualToAnchor:card.trailingAnchor constant:-8.0],
-        [more.centerYAnchor constraintEqualToAnchor:likeIcon.centerYAnchor],
+        [more.centerYAnchor constraintEqualToAnchor:likeStack.centerYAnchor],
         [more.widthAnchor constraintEqualToConstant:28.0],
         [more.heightAnchor constraintEqualToConstant:38.0]
     ]];
@@ -347,8 +603,140 @@ static UIColor *BLText(void) {
     return card;
 }
 
+- (void)featuredLikeTapped:(UIButton *)sender {
+    self.featuredLiked = !self.featuredLiked;
+    self.featuredLikeCount += self.featuredLiked ? 1 : -1;
+    [self updateFeaturedLikeAppearanceAnimated:YES];
+}
+
+- (void)updateFeaturedLikeAppearanceAnimated:(BOOL)animated {
+    UIColor *color = self.featuredLiked ? BLPink() : [UIColor colorWithWhite:0.44 alpha:1.0];
+    UIImage *image = [self thumbsUpImageWithColor:color size:CGSizeMake(24.0, 24.0)];
+    [self.featuredLikeButton setImage:image forState:UIControlStateNormal];
+    self.featuredLikeCountLabel.text = [self formattedLikeCount];
+    self.featuredLikeCountLabel.textColor = color;
+
+    if (!animated) {
+        return;
+    }
+
+    self.featuredLikeButton.transform = CGAffineTransformMakeScale(0.78, 0.78);
+    self.featuredLikeCountLabel.transform = CGAffineTransformMakeTranslation(0.0, 4.0);
+    self.featuredLikeCountLabel.alpha = 0.65;
+
+    [UIView animateWithDuration:0.18 delay:0.0 usingSpringWithDamping:0.48 initialSpringVelocity:0.8 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.featuredLikeButton.transform = CGAffineTransformMakeScale(1.22, 1.22);
+        self.featuredLikeCountLabel.transform = CGAffineTransformIdentity;
+        self.featuredLikeCountLabel.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.12 animations:^{
+            self.featuredLikeButton.transform = CGAffineTransformIdentity;
+        }];
+    }];
+}
+
+- (NSString *)formattedLikeCount {
+    return [NSString stringWithFormat:@"%ld", (long)self.featuredLikeCount];
+}
+
+- (void)showFeedbackPanel {
+    [self buildFeedbackPanelIfNeeded];
+    self.feedbackPanelView.hidden = NO;
+    self.feedbackPanelView.alpha = 0.0;
+    [self.feedbackPanelView setPanelVerticalOffset:CGRectGetHeight(self.view.bounds) * 0.40];
+
+    [UIView animateWithDuration:0.28 delay:0.0 usingSpringWithDamping:0.88 initialSpringVelocity:0.6 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.feedbackPanelView.alpha = 1.0;
+        [self.feedbackPanelView setPanelVerticalOffset:0.0];
+    } completion:nil];
+}
+
+- (void)dismissFeedbackPanel {
+    if (self.feedbackPanelView.hidden) {
+        return;
+    }
+
+    [UIView animateWithDuration:0.22 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.feedbackPanelView.alpha = 0.0;
+        [self.feedbackPanelView setPanelVerticalOffset:CGRectGetHeight(self.view.bounds) * 0.40];
+    } completion:^(BOOL finished) {
+        self.feedbackPanelView.hidden = YES;
+        [self.feedbackPanelView setPanelVerticalOffset:0.0];
+    }];
+}
+
+- (void)buildFeedbackPanelIfNeeded {
+    if (self.feedbackPanelView != nil) {
+        return;
+    }
+
+    self.feedbackPanelView = [[BLFeedbackPanelView alloc] init];
+    self.feedbackPanelView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.feedbackPanelView.dismissRequested = ^{
+        [weakSelf dismissFeedbackPanel];
+    };
+    self.feedbackPanelView.optionSelected = ^(NSString *title) {
+        [weakSelf dismissFeedbackPanel];
+    };
+    [self.view addSubview:self.feedbackPanelView];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [self.feedbackPanelView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.feedbackPanelView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.feedbackPanelView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.feedbackPanelView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+}
+
+- (void)showSearchPage {
+    [self buildSearchPageIfNeeded];
+    self.searchPageView.hidden = NO;
+    self.searchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [self.view layoutIfNeeded];
+
+    self.searchPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self.searchPageView focusSearchField];
+    }];
+}
+
+- (void)dismissSearchPage {
+    [self.searchPageView resignSearchField];
+    self.searchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.searchPageView.hidden = YES;
+    }];
+}
+
+- (void)buildSearchPageIfNeeded {
+    if (self.searchPageView != nil) {
+        return;
+    }
+
+    self.searchPageView = [[BLSearchPageView alloc] init];
+    self.searchPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.searchPageView.backTapped = ^{
+        [weakSelf dismissSearchPage];
+    };
+    [self.view addSubview:self.searchPageView];
+
+    self.searchPageLeadingConstraint = [self.searchPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.searchPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.searchPageLeadingConstraint,
+        [self.searchPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.searchPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+}
 - (UIView *)compactCardWithItem:(BLVideoItem *)item {
     UIView *card = [self cardContainer];
+    [self addOpenPlayerButtonToCard:card item:item];
     BLGradientView *cover = [self coverViewWithItem:item compact:YES];
     [card addSubview:cover];
 
@@ -393,6 +781,7 @@ static UIColor *BLText(void) {
 - (BLGradientView *)coverViewWithItem:(BLVideoItem *)item compact:(BOOL)compact {
     BLGradientView *cover = [[BLGradientView alloc] init];
     cover.translatesAutoresizingMaskIntoConstraints = NO;
+    cover.userInteractionEnabled = NO;
     cover.colors = item.colors;
     cover.layer.cornerRadius = 4.0;
     cover.layer.masksToBounds = YES;
@@ -456,6 +845,36 @@ static UIColor *BLText(void) {
     return card;
 }
 
+- (void)addOpenPlayerButtonToCard:(UIView *)card item:(BLVideoItem *)item {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.accessibilityLabel = item.title;
+    button.accessibilityHint = item.author;
+    [button addTarget:self action:@selector(openPlayerFromCard:) forControlEvents:UIControlEventTouchUpInside];
+    [card addSubview:button];
+    [NSLayoutConstraint activateConstraints:@[
+        [button.topAnchor constraintEqualToAnchor:card.topAnchor],
+        [button.leadingAnchor constraintEqualToAnchor:card.leadingAnchor],
+        [button.trailingAnchor constraintEqualToAnchor:card.trailingAnchor],
+        [button.bottomAnchor constraintEqualToAnchor:card.bottomAnchor]
+    ]];
+}
+
+- (void)openPlayerFromCard:(UIButton *)sender {
+    NSURL *URL = [NSURL URLWithString:BLDefaultVideoURLString];
+    if (URL == nil) {
+        return;
+    }
+    NSString *title = sender.accessibilityLabel.length > 0 ? sender.accessibilityLabel : @"没什么比一位妈妈的力量更强大";
+    NSString *author = sender.accessibilityHint.length > 0 ? sender.accessibilityHint : @"Youtube抢先看";
+    [self openPlayerWithURL:URL title:title author:author];
+}
+
+- (void)openPlayerWithURL:(NSURL *)URL title:(NSString *)title author:(NSString *)author {
+    BLVideoDetailViewController *detail = [[BLVideoDetailViewController alloc] initWithVideoURL:URL title:title author:author];
+    [self presentViewController:detail animated:YES completion:nil];
+}
+
 - (UIView *)categoryViewWithTitle:(NSString *)title selected:(BOOL)selected {
     UIStackView *stack = [[UIStackView alloc] init];
     stack.axis = UILayoutConstraintAxisVertical;
@@ -470,12 +889,93 @@ static UIColor *BLText(void) {
     line.backgroundColor = selected ? BLPink() : [UIColor clearColor];
     line.layer.cornerRadius = 2.0;
     [stack addArrangedSubview:line];
+    [self.categoryLabels addObject:label];
+    [self.categoryIndicators addObject:line];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.accessibilityIdentifier = title;
+    [button addTarget:self action:@selector(categoryTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [stack addSubview:button];
     [NSLayoutConstraint activateConstraints:@[
         [line.widthAnchor constraintEqualToConstant:27.0],
-        [line.heightAnchor constraintEqualToConstant:4.0]
+        [line.heightAnchor constraintEqualToConstant:4.0],
+        [button.topAnchor constraintEqualToAnchor:stack.topAnchor],
+        [button.leadingAnchor constraintEqualToAnchor:stack.leadingAnchor],
+        [button.trailingAnchor constraintEqualToAnchor:stack.trailingAnchor],
+        [button.bottomAnchor constraintEqualToAnchor:stack.bottomAnchor]
     ]];
 
     return stack;
+}
+
+- (void)categoryTapped:(UIButton *)sender {
+    NSString *category = sender.accessibilityIdentifier;
+    if (category.length == 0 || [category isEqualToString:self.selectedCategory]) {
+        return;
+    }
+    if (![category isEqualToString:@"直播"] && ![category isEqualToString:@"推荐"] && ![category isEqualToString:@"热门"] && ![category isEqualToString:@"动画"] && ![category isEqualToString:@"影视"]) {
+        self.selectedCategory = category;
+        [self updateCategorySelection];
+        self.feedScrollView.hidden = NO;
+        self.livePageView.hidden = YES;
+        self.hotPageView.hidden = YES;
+        self.animePageView.hidden = YES;
+        self.filmPageView.hidden = YES;
+        return;
+    }
+    self.selectedCategory = category;
+    [self updateCategorySelection];
+    [self showSelectedContent];
+}
+
+- (void)updateCategorySelection {
+    for (NSUInteger index = 0; index < self.categoryLabels.count; index++) {
+        UILabel *label = self.categoryLabels[index];
+        UIView *indicator = self.categoryIndicators[index];
+        BOOL selected = [label.text isEqualToString:self.selectedCategory];
+        label.textColor = selected ? BLPink() : [UIColor colorWithWhite:0.36 alpha:1.0];
+        label.font = [UIFont systemFontOfSize:19.0 weight:(selected ? UIFontWeightSemibold : UIFontWeightRegular)];
+        indicator.backgroundColor = selected ? BLPink() : [UIColor clearColor];
+    }
+}
+
+- (void)showSelectedContent {
+    if ([self.selectedCategory isEqualToString:@"直播"]) {
+        [self buildLivePageIfNeeded];
+        self.feedScrollView.hidden = YES;
+        self.livePageView.hidden = NO;
+        self.hotPageView.hidden = YES;
+        self.animePageView.hidden = YES;
+        self.filmPageView.hidden = YES;
+    } else if ([self.selectedCategory isEqualToString:@"热门"]) {
+        [self buildHotPageIfNeeded];
+        self.feedScrollView.hidden = YES;
+        self.livePageView.hidden = YES;
+        self.hotPageView.hidden = NO;
+        self.animePageView.hidden = YES;
+        self.filmPageView.hidden = YES;
+    } else if ([self.selectedCategory isEqualToString:@"动画"]) {
+        [self buildAnimePageIfNeeded];
+        self.feedScrollView.hidden = YES;
+        self.livePageView.hidden = YES;
+        self.hotPageView.hidden = YES;
+        self.animePageView.hidden = NO;
+        self.filmPageView.hidden = YES;
+    } else if ([self.selectedCategory isEqualToString:@"影视"]) {
+        [self buildFilmPageIfNeeded];
+        self.feedScrollView.hidden = YES;
+        self.livePageView.hidden = YES;
+        self.hotPageView.hidden = YES;
+        self.animePageView.hidden = YES;
+        self.filmPageView.hidden = NO;
+    } else {
+        self.feedScrollView.hidden = NO;
+        self.livePageView.hidden = YES;
+        self.hotPageView.hidden = YES;
+        self.animePageView.hidden = YES;
+        self.filmPageView.hidden = YES;
+    }
 }
 
 - (UIView *)bottomTabWithTitle:(NSString *)title symbol:(NSString *)symbol selected:(BOOL)selected badge:(NSString *)badge {
@@ -494,9 +994,11 @@ static UIColor *BLText(void) {
     [icon.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [icon.heightAnchor constraintEqualToConstant:30.0].active = YES;
     [stack addArrangedSubview:icon];
+    self.bottomTabIcons[symbol] = icon;
 
     UILabel *label = [self labelWithText:title font:[UIFont systemFontOfSize:13.0 weight:UIFontWeightRegular] color:color];
     [stack addArrangedSubview:label];
+    self.bottomTabLabels[symbol] = label;
 
     if (badge.length > 0) {
         UILabel *badgeLabel = [self labelWithText:badge font:[UIFont systemFontOfSize:12.0 weight:UIFontWeightMedium] color:[UIColor whiteColor]];
@@ -506,6 +1008,9 @@ static UIColor *BLText(void) {
         badgeLabel.layer.cornerRadius = 10.0;
         badgeLabel.layer.masksToBounds = YES;
         [container addSubview:badgeLabel];
+        if ([symbol isEqualToString:@"person.2"]) {
+            self.followingBadgeLabel = badgeLabel;
+        }
         [NSLayoutConstraint activateConstraints:@[
             [badgeLabel.centerXAnchor constraintEqualToAnchor:icon.trailingAnchor constant:3.0],
             [badgeLabel.centerYAnchor constraintEqualToAnchor:icon.topAnchor constant:3.0],
@@ -519,7 +1024,561 @@ static UIColor *BLText(void) {
         [stack.centerYAnchor constraintEqualToAnchor:container.centerYAnchor],
         [container.heightAnchor constraintEqualToConstant:62.0]
     ]];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.accessibilityIdentifier = symbol;
+    [button addTarget:self action:@selector(bottomTabTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:button];
+    [NSLayoutConstraint activateConstraints:@[
+        [button.topAnchor constraintEqualToAnchor:container.topAnchor],
+        [button.leadingAnchor constraintEqualToAnchor:container.leadingAnchor],
+        [button.trailingAnchor constraintEqualToAnchor:container.trailingAnchor],
+        [button.bottomAnchor constraintEqualToAnchor:container.bottomAnchor]
+    ]];
     return container;
+}
+
+- (void)bottomTabTapped:(UIButton *)sender {
+    if ([sender.accessibilityIdentifier isEqualToString:@"person.2"]) {
+        [self showFollowingPage];
+    } else if ([sender.accessibilityIdentifier isEqualToString:@"house"]) {
+        [self showHomePage];
+    } else if ([sender.accessibilityIdentifier isEqualToString:@"bag"]) {
+        [self showMallPage];
+    } else if ([sender.accessibilityIdentifier isEqualToString:@"tv"]) {
+        [self showMinePage];
+    }
+}
+
+- (void)updateBottomTabSelection:(NSString *)selectedSymbol {
+    self.selectedBottomTab = selectedSymbol;
+    UIColor *selectedColor = BLPink();
+    UIColor *normalColor = [UIColor colorWithWhite:0.35 alpha:1.0];
+    [self.bottomTabIcons enumerateKeysAndObjectsUsingBlock:^(NSString *symbol, UIImageView *icon, BOOL *stop) {
+        BOOL selected = [symbol isEqualToString:selectedSymbol];
+        icon.tintColor = selected ? selectedColor : normalColor;
+        self.bottomTabLabels[symbol].textColor = selected ? selectedColor : normalColor;
+    }];
+}
+
+- (void)showFollowingPage {
+    [self buildFollowingPageIfNeeded];
+    [self updateBottomTabSelection:@"person.2"];
+    self.followingBadgeLabel.hidden = YES;
+    self.topBar.hidden = YES;
+    self.feedScrollView.hidden = YES;
+    self.livePageView.hidden = YES;
+    self.hotPageView.hidden = YES;
+    self.animePageView.hidden = YES;
+    self.filmPageView.hidden = YES;
+    self.mallPageView.hidden = YES;
+    self.minePageView.hidden = YES;
+    self.followingPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.followingPageView];
+    [self.view bringSubviewToFront:self.bottomBar];
+    [self.followingPageView activate];
+}
+
+- (void)showHomePage {
+    [self updateBottomTabSelection:@"house"];
+    [self.followingPageView deactivate];
+    self.followingPageView.hidden = YES;
+    self.mallPageView.hidden = YES;
+    self.minePageView.hidden = YES;
+    self.topBar.hidden = NO;
+    [self showSelectedContent];
+    [self.view bringSubviewToFront:self.bottomBar];
+}
+
+- (void)showMallPage {
+    [self buildMallPageIfNeeded];
+    [self updateBottomTabSelection:@"bag"];
+    [self.followingPageView deactivate];
+    self.topBar.hidden = YES;
+    self.feedScrollView.hidden = YES;
+    self.livePageView.hidden = YES;
+    self.hotPageView.hidden = YES;
+    self.animePageView.hidden = YES;
+    self.filmPageView.hidden = YES;
+    self.followingPageView.hidden = YES;
+    self.minePageView.hidden = YES;
+    self.mallPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.mallPageView];
+    [self.view bringSubviewToFront:self.bottomBar];
+}
+
+- (void)showMinePage {
+    [self buildMinePageIfNeeded];
+    [self updateBottomTabSelection:@"tv"];
+    [self.followingPageView deactivate];
+    self.topBar.hidden = YES;
+    self.feedScrollView.hidden = YES;
+    self.livePageView.hidden = YES;
+    self.hotPageView.hidden = YES;
+    self.animePageView.hidden = YES;
+    self.filmPageView.hidden = YES;
+    self.followingPageView.hidden = YES;
+    self.mallPageView.hidden = YES;
+    self.minePageView.hidden = NO;
+    [self.view bringSubviewToFront:self.minePageView];
+    [self.view bringSubviewToFront:self.bottomBar];
+}
+
+- (void)showMallSearchPage {
+    [self buildMallSearchPageIfNeeded];
+    self.mallSearchPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.mallSearchPageView];
+    self.mallSearchPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showHistoryPage {
+    [self buildHistoryPageIfNeeded];
+    self.historyPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.historyPageView];
+    self.historyPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showOfflineCachePage {
+    [self buildOfflineCachePageIfNeeded];
+    self.offlineCachePageView.hidden = NO;
+    [self.view bringSubviewToFront:self.offlineCachePageView];
+    self.offlineCachePageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showFavoritePage {
+    [self buildFavoritePageIfNeeded];
+    self.favoritePageView.hidden = NO;
+    [self.view bringSubviewToFront:self.favoritePageView];
+    self.favoritePageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showWatchLaterPage {
+    [self buildWatchLaterPageIfNeeded];
+    self.watchLaterPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.watchLaterPageView];
+    self.watchLaterPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showProfileSpacePage {
+    [self buildProfileSpacePageIfNeeded];
+    self.profileSpacePageView.hidden = NO;
+    [self.view bringSubviewToFront:self.profileSpacePageView];
+    self.profileSpacePageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)showMemberCenterPage {
+    [self buildMemberCenterPageIfNeeded];
+    self.memberCenterPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.memberCenterPageView];
+    self.memberCenterPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self.memberCenterPageView activate];
+    }];
+}
+
+- (void)showContactServicePage {
+    [self buildContactServicePageIfNeeded];
+    self.contactServicePageView.hidden = NO;
+    [self.view bringSubviewToFront:self.contactServicePageView];
+    self.contactServicePageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)dismissMemberCenterPage {
+    [self.memberCenterPageView deactivate];
+    self.memberCenterPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self.memberCenterPageView removeFromSuperview];
+        self.memberCenterPageView = nil;
+        self.memberCenterPageLeadingConstraint = nil;
+    }];
+}
+
+- (void)buildMemberCenterPageIfNeeded {
+    if (self.memberCenterPageView != nil) {
+        return;
+    }
+    self.memberCenterPageView = [[BLMemberCenterPageView alloc] init];
+    self.memberCenterPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.memberCenterPageView.closeTapped = ^{
+        [weakSelf dismissMemberCenterPage];
+    };
+    [self.view addSubview:self.memberCenterPageView];
+    self.memberCenterPageLeadingConstraint = [self.memberCenterPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.memberCenterPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.memberCenterPageLeadingConstraint,
+        [self.memberCenterPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.memberCenterPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissContactServicePage {
+    self.contactServicePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.contactServicePageView.hidden = YES;
+    }];
+}
+
+- (void)buildContactServicePageIfNeeded {
+    if (self.contactServicePageView != nil) {
+        return;
+    }
+    self.contactServicePageView = [[BLContactServicePageView alloc] init];
+    self.contactServicePageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.contactServicePageView.closeTapped = ^{
+        [weakSelf dismissContactServicePage];
+    };
+    [self.view addSubview:self.contactServicePageView];
+    self.contactServicePageLeadingConstraint = [self.contactServicePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.contactServicePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.contactServicePageLeadingConstraint,
+        [self.contactServicePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.contactServicePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissProfileSpacePage {
+    self.profileSpacePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.profileSpacePageView.hidden = YES;
+    }];
+}
+
+- (void)buildProfileSpacePageIfNeeded {
+    if (self.profileSpacePageView != nil) {
+        return;
+    }
+    self.profileSpacePageView = [[BLProfileSpacePageView alloc] init];
+    self.profileSpacePageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.profileSpacePageView.closeTapped = ^{
+        [weakSelf dismissProfileSpacePage];
+    };
+    self.profileSpacePageView.chooseBackgroundTapped = ^{
+        [weakSelf showProfileBackgroundPicker];
+    };
+    [self.view addSubview:self.profileSpacePageView];
+    self.profileSpacePageLeadingConstraint = [self.profileSpacePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.profileSpacePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.profileSpacePageLeadingConstraint,
+        [self.profileSpacePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.profileSpacePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)showProfileBackgroundPicker {
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        return;
+    }
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    if (image == nil) {
+        image = info[UIImagePickerControllerOriginalImage];
+    }
+    if (image != nil) {
+        [self.profileSpacePageView setProfileBackgroundImage:image];
+    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)dismissOfflineCachePage {
+    self.offlineCachePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.offlineCachePageView.hidden = YES;
+    }];
+}
+
+- (void)buildOfflineCachePageIfNeeded {
+    if (self.offlineCachePageView != nil) {
+        return;
+    }
+    self.offlineCachePageView = [[BLOfflineCachePageView alloc] init];
+    self.offlineCachePageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.offlineCachePageView.closeTapped = ^{
+        [weakSelf dismissOfflineCachePage];
+    };
+    self.offlineCachePageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
+        [weakSelf openPlayerWithURL:URL title:title author:author];
+    };
+    [self.view addSubview:self.offlineCachePageView];
+    self.offlineCachePageLeadingConstraint = [self.offlineCachePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.offlineCachePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.offlineCachePageLeadingConstraint,
+        [self.offlineCachePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.offlineCachePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissFavoritePage {
+    self.favoritePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.favoritePageView.hidden = YES;
+    }];
+}
+
+- (void)buildFavoritePageIfNeeded {
+    if (self.favoritePageView != nil) {
+        return;
+    }
+    self.favoritePageView = [[BLFavoritePageView alloc] init];
+    self.favoritePageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.favoritePageView.closeTapped = ^{
+        [weakSelf dismissFavoritePage];
+    };
+    self.favoritePageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
+        [weakSelf openPlayerWithURL:URL title:title author:author];
+    };
+    [self.view addSubview:self.favoritePageView];
+    self.favoritePageLeadingConstraint = [self.favoritePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.favoritePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.favoritePageLeadingConstraint,
+        [self.favoritePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.favoritePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissWatchLaterPage {
+    self.watchLaterPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.watchLaterPageView.hidden = YES;
+    }];
+}
+
+- (void)buildWatchLaterPageIfNeeded {
+    if (self.watchLaterPageView != nil) {
+        return;
+    }
+    self.watchLaterPageView = [[BLWatchLaterPageView alloc] init];
+    self.watchLaterPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.watchLaterPageView.closeTapped = ^{
+        [weakSelf dismissWatchLaterPage];
+    };
+    self.watchLaterPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
+        [weakSelf openPlayerWithURL:URL title:title author:author];
+    };
+    [self.view addSubview:self.watchLaterPageView];
+    self.watchLaterPageLeadingConstraint = [self.watchLaterPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.watchLaterPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.watchLaterPageLeadingConstraint,
+        [self.watchLaterPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.watchLaterPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissHistoryPage {
+    self.historyPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.historyPageView.hidden = YES;
+    }];
+}
+
+- (void)buildHistoryPageIfNeeded {
+    if (self.historyPageView != nil) {
+        return;
+    }
+    self.historyPageView = [[BLHistoryPageView alloc] init];
+    self.historyPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.historyPageView.closeTapped = ^{
+        [weakSelf dismissHistoryPage];
+    };
+    self.historyPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
+        [weakSelf openPlayerWithURL:URL title:title author:author];
+    };
+    [self.view addSubview:self.historyPageView];
+    self.historyPageLeadingConstraint = [self.historyPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.historyPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.historyPageLeadingConstraint,
+        [self.historyPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.historyPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)dismissMallSearchPage {
+    self.mallSearchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.mallSearchPageView.hidden = YES;
+    }];
+}
+
+- (void)buildMallSearchPageIfNeeded {
+    if (self.mallSearchPageView != nil) {
+        return;
+    }
+    self.mallSearchPageView = [[BLMallSearchPageView alloc] init];
+    self.mallSearchPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.mallSearchPageView.closeTapped = ^{
+        [weakSelf dismissMallSearchPage];
+    };
+    [self.view addSubview:self.mallSearchPageView];
+    self.mallSearchPageLeadingConstraint = [self.mallSearchPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.mallSearchPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.mallSearchPageLeadingConstraint,
+        [self.mallSearchPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.mallSearchPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)showMallCouponPage {
+    [self buildMallCouponPageIfNeeded];
+    self.mallCouponPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.mallCouponPageView];
+    self.mallCouponPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)dismissMallCouponPage {
+    self.mallCouponPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.mallCouponPageView.hidden = YES;
+    }];
+}
+
+- (void)buildMallCouponPageIfNeeded {
+    if (self.mallCouponPageView != nil) {
+        return;
+    }
+    self.mallCouponPageView = [[BLMallCouponPageView alloc] init];
+    self.mallCouponPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.mallCouponPageView.closeTapped = ^{
+        [weakSelf dismissMallCouponPage];
+    };
+    self.mallCouponPageView.searchTapped = ^{
+        [weakSelf showMallSearchPage];
+    };
+    [self.view addSubview:self.mallCouponPageView];
+    self.mallCouponPageLeadingConstraint = [self.mallCouponPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.mallCouponPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.mallCouponPageLeadingConstraint,
+        [self.mallCouponPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.mallCouponPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
+}
+
+- (void)showPublishPage {
+    [self buildPublishPageIfNeeded];
+    [self.followingPageView deactivate];
+    self.publishPageView.hidden = NO;
+    [self.view bringSubviewToFront:self.publishPageView];
+    self.publishPageLeadingConstraint.constant = 0.0;
+    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self.publishPageView activate];
+    }];
+}
+
+- (void)dismissPublishPage {
+    [self.publishPageView deactivate];
+    self.publishPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
+    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.publishPageView.hidden = YES;
+        if (self.followingPageView != nil && !self.followingPageView.hidden) {
+            [self.followingPageView activate];
+        }
+    }];
+}
+
+- (void)buildPublishPageIfNeeded {
+    if (self.publishPageView != nil) {
+        return;
+    }
+    self.publishPageView = [[BLPublishPageView alloc] init];
+    self.publishPageView.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    self.publishPageView.closeTapped = ^{
+        [weakSelf dismissPublishPage];
+    };
+    [self.view addSubview:self.publishPageView];
+    self.publishPageLeadingConstraint = [self.publishPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.publishPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        self.publishPageLeadingConstraint,
+        [self.publishPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
+        [self.publishPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+    [self.view layoutIfNeeded];
 }
 
 - (UIView *)uploadTab {
@@ -535,6 +1594,11 @@ static UIColor *BLText(void) {
     UIImageView *plus = [self imageViewWithSystemName:@"plus" pointSize:30.0 color:[UIColor whiteColor]];
     [button addSubview:plus];
 
+    UIButton *tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    tapButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [tapButton addTarget:self action:@selector(showPublishPage) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:tapButton];
+
     [NSLayoutConstraint activateConstraints:@[
         [container.heightAnchor constraintEqualToConstant:62.0],
         [button.centerXAnchor constraintEqualToAnchor:container.centerXAnchor],
@@ -544,7 +1608,11 @@ static UIColor *BLText(void) {
         [plus.centerXAnchor constraintEqualToAnchor:button.centerXAnchor],
         [plus.centerYAnchor constraintEqualToAnchor:button.centerYAnchor],
         [plus.widthAnchor constraintEqualToConstant:30.0],
-        [plus.heightAnchor constraintEqualToConstant:30.0]
+        [plus.heightAnchor constraintEqualToConstant:30.0],
+        [tapButton.topAnchor constraintEqualToAnchor:container.topAnchor],
+        [tapButton.leadingAnchor constraintEqualToAnchor:container.leadingAnchor],
+        [tapButton.trailingAnchor constraintEqualToAnchor:container.trailingAnchor],
+        [tapButton.bottomAnchor constraintEqualToAnchor:container.bottomAnchor]
     ]];
 
     return container;
@@ -565,6 +1633,7 @@ static UIColor *BLText(void) {
     [button setTitle:@"⋮" forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:26.0 weight:UIFontWeightRegular];
     [button setTitleColor:[UIColor colorWithWhite:0.62 alpha:1.0] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showFeedbackPanel) forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
 
@@ -576,6 +1645,44 @@ static UIColor *BLText(void) {
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.tintColor = color;
     return imageView;
+}
+
+- (UIImage *)thumbsUpImageWithColor:(UIColor *)color size:(CGSize)size {
+    UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat defaultFormat];
+    format.opaque = NO;
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:size format:format];
+    return [renderer imageWithActions:^(UIGraphicsImageRendererContext *rendererContext) {
+        CGContextRef context = rendererContext.CGContext;
+        CGContextScaleCTM(context, size.width / 1024.0, size.height / 1024.0);
+
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(64.0, 483.04)];
+        [path addLineToPoint:CGPointMake(64.0, 872.0)];
+        [path addCurveToPoint:CGPointMake(131.36, 939.36) controlPoint1:CGPointMake(64.0, 909.216) controlPoint2:CGPointMake(94.144, 939.36)];
+        [path addLineToPoint:CGPointMake(192.0, 939.36)];
+        [path addLineToPoint:CGPointMake(192.0, 416.32)];
+        [path addLineToPoint:CGPointMake(131.36, 415.68)];
+        [path addCurveToPoint:CGPointMake(64.0, 483.04) controlPoint1:CGPointMake(94.144, 415.68) controlPoint2:CGPointMake(64.0, 445.824)];
+        [path closePath];
+
+        [path moveToPoint:CGPointMake(857.28, 344.992)];
+        [path addLineToPoint:CGPointMake(589.472, 346.688)];
+        [path addCurveToPoint:CGPointMake(608.416, 228.48) controlPoint1:CGPointMake(602.048, 302.432) controlPoint2:CGPointMake(608.416, 263.104)];
+        [path addCurveToPoint:CGPointMake(470.848, 82.976) controlPoint1:CGPointMake(608.416, 149.92) controlPoint2:CGPointMake(539.584, 72.992)];
+        [path addCurveToPoint:CGPointMake(403.584, 209.792) controlPoint1:CGPointMake(410.24, 91.776) controlPoint2:CGPointMake(403.584, 144.16)];
+        [path addLineToPoint:CGPointMake(403.584, 269.056)];
+        [path addCurveToPoint:CGPointMake(265.728, 417.056) controlPoint1:CGPointMake(403.584, 345.12) controlPoint2:CGPointMake(339.744, 409.92)];
+        [path addLineToPoint:CGPointMake(256.0, 416.96)];
+        [path addLineToPoint:CGPointMake(256.0, 939.36)];
+        [path addLineToPoint:CGPointMake(783.552, 939.36)];
+        [path addCurveToPoint:CGPointMake(884.48, 855.776) controlPoint1:CGPointMake(833.024, 939.36) controlPoint2:CGPointMake(875.232, 904.384)];
+        [path addLineToPoint:CGPointMake(958.208, 466.816)];
+        [path addCurveToPoint:CGPointMake(857.28, 344.992) controlPoint1:CGPointMake(970.56, 401.536) controlPoint2:CGPointMake(923.968, 344.576)];
+        [path closePath];
+
+        [color setFill];
+        [path fill];
+    }];
 }
 
 - (UILabel *)labelWithText:(NSString *)text font:(UIFont *)font color:(UIColor *)color {

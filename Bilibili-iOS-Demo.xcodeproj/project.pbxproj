@@ -13,6 +13,55 @@
 		0A0A00042D00AA0000000001 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00162D00AA0000000001 /* HomeViewController.m */; };
 		0A0A00052D00AA0000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A0A00182D00AA0000000001 /* Assets.xcassets */; };
 		0A0A000E2D00AA0000000001 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A0A00192D00AA0000000001 /* LaunchScreen.storyboard */; };
+		0A0A00242D00AA0000000001 /* BLFeedbackPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00232D00AA0000000001 /* BLFeedbackPanelView.m */; };
+		0A0A00272D00AA0000000001 /* BLSearchPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00262D00AA0000000001 /* BLSearchPageView.m */; };
+		0A0A002A2D00AA0000000001 /* BLLiveCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00292D00AA0000000001 /* BLLiveCarouselView.m */; };
+		0A0A002D2D00AA0000000001 /* BLLivePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A002C2D00AA0000000001 /* BLLivePageView.m */; };
+		0A0A00302D00AA0000000001 /* BLLivePopularityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A002F2D00AA0000000001 /* BLLivePopularityView.m */; };
+		0A0A00332D00AA0000000001 /* BLLiveBeautyLiveCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00322D00AA0000000001 /* BLLiveBeautyLiveCardView.m */; };
+		0A0A00362D00AA0000000001 /* BLLiveBeautyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00352D00AA0000000001 /* BLLiveBeautyPageView.m */; };
+		0A0A00392D00AA0000000001 /* BLLiveLeagueLiveCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00382D00AA0000000001 /* BLLiveLeagueLiveCardView.m */; };
+		0A0A003C2D00AA0000000001 /* BLLiveLeaguePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A003B2D00AA0000000001 /* BLLiveLeaguePageView.m */; };
+		0A0A003F2D00AA0000000001 /* BLHotVideoCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A003E2D00AA0000000001 /* BLHotVideoCellView.m */; };
+		0A0A00422D00AA0000000001 /* BLHotPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00412D00AA0000000001 /* BLHotPageView.m */; };
+		0A0A00452D00AA0000000001 /* BLSharePanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00442D00AA0000000001 /* BLSharePanelView.m */; };
+		0A0A00482D00AA0000000001 /* BLAnimeCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00472D00AA0000000001 /* BLAnimeCarouselView.m */; };
+		0A0A004B2D00AA0000000001 /* BLAnimePosterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A004A2D00AA0000000001 /* BLAnimePosterCardView.m */; };
+		0A0A004E2D00AA0000000001 /* BLAnimePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A004D2D00AA0000000001 /* BLAnimePageView.m */; };
+		0A0A00512D00AA0000000001 /* BLFilmProgressCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00502D00AA0000000001 /* BLFilmProgressCardView.m */; };
+		0A0A00542D00AA0000000001 /* BLFilmPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00532D00AA0000000001 /* BLFilmPageView.m */; };
+		0A0A00572D00AA0000000001 /* BLPlayerRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00562D00AA0000000001 /* BLPlayerRenderView.m */; };
+		0A0A005A2D00AA0000000001 /* BLPlayerCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00592D00AA0000000001 /* BLPlayerCore.m */; };
+		0A0A005D2D00AA0000000001 /* BLVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A005C2D00AA0000000001 /* BLVideoPlayerView.m */; };
+		0A0A00602D00AA0000000001 /* BLVideoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A005F2D00AA0000000001 /* BLVideoDetailViewController.m */; };
+		0A0A00652D00AA0000000001 /* BLPlaybackSpeedToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00622D00AA0000000001 /* BLPlaybackSpeedToastView.m */; };
+		0A0A00662D00AA0000000001 /* BLPlaybackSettingsPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00642D00AA0000000001 /* BLPlaybackSettingsPanelView.m */; };
+		0A0A00692D00AA0000000001 /* BLPausedCompactPlayerBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00682D00AA0000000001 /* BLPausedCompactPlayerBarView.m */; };
+		0A0A006C2D00AA0000000001 /* BLFollowingPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A006B2D00AA0000000001 /* BLFollowingPageView.m */; };
+		0A0A006F2D00AA0000000001 /* BLBangumiCollectionPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A006E2D00AA0000000001 /* BLBangumiCollectionPageView.m */; };
+		0A0A00722D00AA0000000001 /* BLPublishPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00712D00AA0000000001 /* BLPublishPageView.m */; };
+		0A0A00752D00AA0000000001 /* BLCapturePublishView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00742D00AA0000000001 /* BLCapturePublishView.m */; };
+		0A0A00782D00AA0000000001 /* BLAlbumUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00772D00AA0000000001 /* BLAlbumUploadView.m */; };
+		0A0A007B2D00AA0000000001 /* BLMallPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A007A2D00AA0000000001 /* BLMallPageView.m */; };
+		0A0A007E2D00AA0000000001 /* BLMallSearchPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A007D2D00AA0000000001 /* BLMallSearchPageView.m */; };
+		0A0A00822D00AA0000000001 /* BLMallCouponPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00812D00AA0000000001 /* BLMallCouponPageView.m */; };
+		0A0A00852D00AA0000000001 /* BLMinePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00842D00AA0000000001 /* BLMinePageView.m */; };
+		0A0A00882D00AA0000000001 /* BLHistoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00872D00AA0000000001 /* BLHistoryPageView.m */; };
+		0A0A008B2D00AA0000000001 /* BLFavoritePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A008A2D00AA0000000001 /* BLFavoritePageView.m */; };
+		0A0A00922D00AA0000000001 /* BLProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00912D00AA0000000001 /* BLProfileHeaderView.m */; };
+		0A0A00952D00AA0000000001 /* BLProfileTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00942D00AA0000000001 /* BLProfileTabBarView.m */; };
+		0A0A00982D00AA0000000001 /* BLProfileHomeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00972D00AA0000000001 /* BLProfileHomeContentView.m */; };
+		0A0A009B2D00AA0000000001 /* BLProfileDynamicContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A009A2D00AA0000000001 /* BLProfileDynamicContentView.m */; };
+		0A0A009E2D00AA0000000001 /* BLProfileSubmissionContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A009D2D00AA0000000001 /* BLProfileSubmissionContentView.m */; };
+		0A0A00A12D00AA0000000001 /* BLProfileFavoriteContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00A02D00AA0000000001 /* BLProfileFavoriteContentView.m */; };
+		0A0A00A42D00AA0000000001 /* BLProfileBangumiContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00A32D00AA0000000001 /* BLProfileBangumiContentView.m */; };
+		0A0A00A72D00AA0000000001 /* BLProfileSpacePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00A62D00AA0000000001 /* BLProfileSpacePageView.m */; };
+		0A0A00AA2D00AA0000000001 /* BLMemberAutoCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00A92D00AA0000000001 /* BLMemberAutoCarouselView.m */; };
+		0A0A00AD2D00AA0000000001 /* BLMemberPaymentBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00AC2D00AA0000000001 /* BLMemberPaymentBarView.m */; };
+		0A0A00B02D00AA0000000001 /* BLMemberCenterPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00AF2D00AA0000000001 /* BLMemberCenterPageView.m */; };
+		0A0A00B32D00AA0000000001 /* BLOfflineCachePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B22D00AA0000000001 /* BLOfflineCachePageView.m */; };
+		0A0A00B62D00AA0000000001 /* BLWatchLaterPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B52D00AA0000000001 /* BLWatchLaterPageView.m */; };
+		0A0A00B92D00AA0000000001 /* BLContactServicePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +76,104 @@
 		0A0A00172D00AA0000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A0A00182D00AA0000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A0A00192D00AA0000000001 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0A0A00222D00AA0000000001 /* BLFeedbackPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFeedbackPanelView.h; sourceTree = "<group>"; };
+		0A0A00232D00AA0000000001 /* BLFeedbackPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFeedbackPanelView.m; sourceTree = "<group>"; };
+		0A0A00252D00AA0000000001 /* BLSearchPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLSearchPageView.h; sourceTree = "<group>"; };
+		0A0A00262D00AA0000000001 /* BLSearchPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLSearchPageView.m; sourceTree = "<group>"; };
+		0A0A00282D00AA0000000001 /* BLLiveCarouselView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLiveCarouselView.h; sourceTree = "<group>"; };
+		0A0A00292D00AA0000000001 /* BLLiveCarouselView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLiveCarouselView.m; sourceTree = "<group>"; };
+		0A0A002B2D00AA0000000001 /* BLLivePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLivePageView.h; sourceTree = "<group>"; };
+		0A0A002C2D00AA0000000001 /* BLLivePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLivePageView.m; sourceTree = "<group>"; };
+		0A0A002E2D00AA0000000001 /* BLLivePopularityView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLivePopularityView.h; sourceTree = "<group>"; };
+		0A0A002F2D00AA0000000001 /* BLLivePopularityView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLivePopularityView.m; sourceTree = "<group>"; };
+		0A0A00312D00AA0000000001 /* BLLiveBeautyLiveCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLiveBeautyLiveCardView.h; sourceTree = "<group>"; };
+		0A0A00322D00AA0000000001 /* BLLiveBeautyLiveCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLiveBeautyLiveCardView.m; sourceTree = "<group>"; };
+		0A0A00342D00AA0000000001 /* BLLiveBeautyPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLiveBeautyPageView.h; sourceTree = "<group>"; };
+		0A0A00352D00AA0000000001 /* BLLiveBeautyPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLiveBeautyPageView.m; sourceTree = "<group>"; };
+		0A0A00372D00AA0000000001 /* BLLiveLeagueLiveCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLiveLeagueLiveCardView.h; sourceTree = "<group>"; };
+		0A0A00382D00AA0000000001 /* BLLiveLeagueLiveCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLiveLeagueLiveCardView.m; sourceTree = "<group>"; };
+		0A0A003A2D00AA0000000001 /* BLLiveLeaguePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLLiveLeaguePageView.h; sourceTree = "<group>"; };
+		0A0A003B2D00AA0000000001 /* BLLiveLeaguePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLLiveLeaguePageView.m; sourceTree = "<group>"; };
+		0A0A003D2D00AA0000000001 /* BLHotVideoCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLHotVideoCellView.h; sourceTree = "<group>"; };
+		0A0A003E2D00AA0000000001 /* BLHotVideoCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLHotVideoCellView.m; sourceTree = "<group>"; };
+		0A0A00402D00AA0000000001 /* BLHotPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLHotPageView.h; sourceTree = "<group>"; };
+		0A0A00412D00AA0000000001 /* BLHotPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLHotPageView.m; sourceTree = "<group>"; };
+		0A0A00432D00AA0000000001 /* BLSharePanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLSharePanelView.h; sourceTree = "<group>"; };
+		0A0A00442D00AA0000000001 /* BLSharePanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLSharePanelView.m; sourceTree = "<group>"; };
+		0A0A00462D00AA0000000001 /* BLAnimeCarouselView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAnimeCarouselView.h; sourceTree = "<group>"; };
+		0A0A00472D00AA0000000001 /* BLAnimeCarouselView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAnimeCarouselView.m; sourceTree = "<group>"; };
+		0A0A00492D00AA0000000001 /* BLAnimePosterCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAnimePosterCardView.h; sourceTree = "<group>"; };
+		0A0A004A2D00AA0000000001 /* BLAnimePosterCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAnimePosterCardView.m; sourceTree = "<group>"; };
+		0A0A004C2D00AA0000000001 /* BLAnimePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAnimePageView.h; sourceTree = "<group>"; };
+		0A0A004D2D00AA0000000001 /* BLAnimePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAnimePageView.m; sourceTree = "<group>"; };
+		0A0A004F2D00AA0000000001 /* BLFilmProgressCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFilmProgressCardView.h; sourceTree = "<group>"; };
+		0A0A00502D00AA0000000001 /* BLFilmProgressCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFilmProgressCardView.m; sourceTree = "<group>"; };
+		0A0A00522D00AA0000000001 /* BLFilmPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFilmPageView.h; sourceTree = "<group>"; };
+		0A0A00532D00AA0000000001 /* BLFilmPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFilmPageView.m; sourceTree = "<group>"; };
+		0A0A00552D00AA0000000001 /* BLPlayerRenderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPlayerRenderView.h; sourceTree = "<group>"; };
+		0A0A00562D00AA0000000001 /* BLPlayerRenderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPlayerRenderView.m; sourceTree = "<group>"; };
+		0A0A00582D00AA0000000001 /* BLPlayerCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPlayerCore.h; sourceTree = "<group>"; };
+		0A0A00592D00AA0000000001 /* BLPlayerCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPlayerCore.m; sourceTree = "<group>"; };
+		0A0A005B2D00AA0000000001 /* BLVideoPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLVideoPlayerView.h; sourceTree = "<group>"; };
+		0A0A005C2D00AA0000000001 /* BLVideoPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLVideoPlayerView.m; sourceTree = "<group>"; };
+		0A0A005E2D00AA0000000001 /* BLVideoDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLVideoDetailViewController.h; sourceTree = "<group>"; };
+		0A0A005F2D00AA0000000001 /* BLVideoDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLVideoDetailViewController.m; sourceTree = "<group>"; };
+		0A0A00612D00AA0000000001 /* BLPlaybackSpeedToastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPlaybackSpeedToastView.h; sourceTree = "<group>"; };
+		0A0A00622D00AA0000000001 /* BLPlaybackSpeedToastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPlaybackSpeedToastView.m; sourceTree = "<group>"; };
+		0A0A00632D00AA0000000001 /* BLPlaybackSettingsPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPlaybackSettingsPanelView.h; sourceTree = "<group>"; };
+		0A0A00642D00AA0000000001 /* BLPlaybackSettingsPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPlaybackSettingsPanelView.m; sourceTree = "<group>"; };
+		0A0A00672D00AA0000000001 /* BLPausedCompactPlayerBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPausedCompactPlayerBarView.h; sourceTree = "<group>"; };
+		0A0A00682D00AA0000000001 /* BLPausedCompactPlayerBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPausedCompactPlayerBarView.m; sourceTree = "<group>"; };
+		0A0A006A2D00AA0000000001 /* BLFollowingPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFollowingPageView.h; sourceTree = "<group>"; };
+		0A0A006B2D00AA0000000001 /* BLFollowingPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFollowingPageView.m; sourceTree = "<group>"; };
+		0A0A006D2D00AA0000000001 /* BLBangumiCollectionPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLBangumiCollectionPageView.h; sourceTree = "<group>"; };
+		0A0A006E2D00AA0000000001 /* BLBangumiCollectionPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLBangumiCollectionPageView.m; sourceTree = "<group>"; };
+		0A0A00702D00AA0000000001 /* BLPublishPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLPublishPageView.h; sourceTree = "<group>"; };
+		0A0A00712D00AA0000000001 /* BLPublishPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLPublishPageView.m; sourceTree = "<group>"; };
+		0A0A00732D00AA0000000001 /* BLCapturePublishView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLCapturePublishView.h; sourceTree = "<group>"; };
+		0A0A00742D00AA0000000001 /* BLCapturePublishView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLCapturePublishView.m; sourceTree = "<group>"; };
+		0A0A00762D00AA0000000001 /* BLAlbumUploadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAlbumUploadView.h; sourceTree = "<group>"; };
+		0A0A00772D00AA0000000001 /* BLAlbumUploadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAlbumUploadView.m; sourceTree = "<group>"; };
+		0A0A00792D00AA0000000001 /* BLMallPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMallPageView.h; sourceTree = "<group>"; };
+		0A0A007A2D00AA0000000001 /* BLMallPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMallPageView.m; sourceTree = "<group>"; };
+		0A0A007C2D00AA0000000001 /* BLMallSearchPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMallSearchPageView.h; sourceTree = "<group>"; };
+		0A0A007D2D00AA0000000001 /* BLMallSearchPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMallSearchPageView.m; sourceTree = "<group>"; };
+		0A0A00802D00AA0000000001 /* BLMallCouponPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMallCouponPageView.h; sourceTree = "<group>"; };
+		0A0A00812D00AA0000000001 /* BLMallCouponPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMallCouponPageView.m; sourceTree = "<group>"; };
+		0A0A00832D00AA0000000001 /* BLMinePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMinePageView.h; sourceTree = "<group>"; };
+		0A0A00842D00AA0000000001 /* BLMinePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMinePageView.m; sourceTree = "<group>"; };
+		0A0A00862D00AA0000000001 /* BLHistoryPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLHistoryPageView.h; sourceTree = "<group>"; };
+		0A0A00872D00AA0000000001 /* BLHistoryPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLHistoryPageView.m; sourceTree = "<group>"; };
+		0A0A00892D00AA0000000001 /* BLFavoritePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFavoritePageView.h; sourceTree = "<group>"; };
+		0A0A008A2D00AA0000000001 /* BLFavoritePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFavoritePageView.m; sourceTree = "<group>"; };
+		0A0A00902D00AA0000000001 /* BLProfileHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileHeaderView.h; sourceTree = "<group>"; };
+		0A0A00912D00AA0000000001 /* BLProfileHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileHeaderView.m; sourceTree = "<group>"; };
+		0A0A00932D00AA0000000001 /* BLProfileTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileTabBarView.h; sourceTree = "<group>"; };
+		0A0A00942D00AA0000000001 /* BLProfileTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileTabBarView.m; sourceTree = "<group>"; };
+		0A0A00962D00AA0000000001 /* BLProfileHomeContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileHomeContentView.h; sourceTree = "<group>"; };
+		0A0A00972D00AA0000000001 /* BLProfileHomeContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileHomeContentView.m; sourceTree = "<group>"; };
+		0A0A00992D00AA0000000001 /* BLProfileDynamicContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileDynamicContentView.h; sourceTree = "<group>"; };
+		0A0A009A2D00AA0000000001 /* BLProfileDynamicContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileDynamicContentView.m; sourceTree = "<group>"; };
+		0A0A009C2D00AA0000000001 /* BLProfileSubmissionContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileSubmissionContentView.h; sourceTree = "<group>"; };
+		0A0A009D2D00AA0000000001 /* BLProfileSubmissionContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileSubmissionContentView.m; sourceTree = "<group>"; };
+		0A0A009F2D00AA0000000001 /* BLProfileFavoriteContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileFavoriteContentView.h; sourceTree = "<group>"; };
+		0A0A00A02D00AA0000000001 /* BLProfileFavoriteContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileFavoriteContentView.m; sourceTree = "<group>"; };
+		0A0A00A22D00AA0000000001 /* BLProfileBangumiContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileBangumiContentView.h; sourceTree = "<group>"; };
+		0A0A00A32D00AA0000000001 /* BLProfileBangumiContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileBangumiContentView.m; sourceTree = "<group>"; };
+		0A0A00A52D00AA0000000001 /* BLProfileSpacePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLProfileSpacePageView.h; sourceTree = "<group>"; };
+		0A0A00A62D00AA0000000001 /* BLProfileSpacePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLProfileSpacePageView.m; sourceTree = "<group>"; };
+		0A0A00A82D00AA0000000001 /* BLMemberAutoCarouselView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMemberAutoCarouselView.h; sourceTree = "<group>"; };
+		0A0A00A92D00AA0000000001 /* BLMemberAutoCarouselView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMemberAutoCarouselView.m; sourceTree = "<group>"; };
+		0A0A00AB2D00AA0000000001 /* BLMemberPaymentBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMemberPaymentBarView.h; sourceTree = "<group>"; };
+		0A0A00AC2D00AA0000000001 /* BLMemberPaymentBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMemberPaymentBarView.m; sourceTree = "<group>"; };
+		0A0A00AE2D00AA0000000001 /* BLMemberCenterPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMemberCenterPageView.h; sourceTree = "<group>"; };
+		0A0A00AF2D00AA0000000001 /* BLMemberCenterPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMemberCenterPageView.m; sourceTree = "<group>"; };
+		0A0A00B12D00AA0000000001 /* BLOfflineCachePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLOfflineCachePageView.h; sourceTree = "<group>"; };
+		0A0A00B22D00AA0000000001 /* BLOfflineCachePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLOfflineCachePageView.m; sourceTree = "<group>"; };
+		0A0A00B42D00AA0000000001 /* BLWatchLaterPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLWatchLaterPageView.h; sourceTree = "<group>"; };
+		0A0A00B52D00AA0000000001 /* BLWatchLaterPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLWatchLaterPageView.m; sourceTree = "<group>"; };
+		0A0A00B72D00AA0000000001 /* BLContactServicePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLContactServicePageView.h; sourceTree = "<group>"; };
+		0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLContactServicePageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +205,117 @@
 				0A0A00142D00AA0000000001 /* SceneDelegate.m */,
 				0A0A00152D00AA0000000001 /* HomeViewController.h */,
 				0A0A00162D00AA0000000001 /* HomeViewController.m */,
+				0A0A00212D00AA0000000001 /* Views */,
 				0A0A00172D00AA0000000001 /* Info.plist */,
 				0A0A00192D00AA0000000001 /* LaunchScreen.storyboard */,
 				0A0A00182D00AA0000000001 /* Assets.xcassets */,
 			);
 			path = "Bilibili-iOS-Demo";
+			sourceTree = "<group>";
+		};
+		0A0A00212D00AA0000000001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0A0A00222D00AA0000000001 /* BLFeedbackPanelView.h */,
+				0A0A00232D00AA0000000001 /* BLFeedbackPanelView.m */,
+				0A0A00432D00AA0000000001 /* BLSharePanelView.h */,
+				0A0A00442D00AA0000000001 /* BLSharePanelView.m */,
+				0A0A006A2D00AA0000000001 /* BLFollowingPageView.h */,
+				0A0A006B2D00AA0000000001 /* BLFollowingPageView.m */,
+				0A0A006D2D00AA0000000001 /* BLBangumiCollectionPageView.h */,
+				0A0A006E2D00AA0000000001 /* BLBangumiCollectionPageView.m */,
+				0A0A00702D00AA0000000001 /* BLPublishPageView.h */,
+				0A0A00712D00AA0000000001 /* BLPublishPageView.m */,
+				0A0A00732D00AA0000000001 /* BLCapturePublishView.h */,
+				0A0A00742D00AA0000000001 /* BLCapturePublishView.m */,
+				0A0A00762D00AA0000000001 /* BLAlbumUploadView.h */,
+				0A0A00772D00AA0000000001 /* BLAlbumUploadView.m */,
+				0A0A00792D00AA0000000001 /* BLMallPageView.h */,
+				0A0A007A2D00AA0000000001 /* BLMallPageView.m */,
+				0A0A007C2D00AA0000000001 /* BLMallSearchPageView.h */,
+				0A0A007D2D00AA0000000001 /* BLMallSearchPageView.m */,
+				0A0A00802D00AA0000000001 /* BLMallCouponPageView.h */,
+				0A0A00812D00AA0000000001 /* BLMallCouponPageView.m */,
+				0A0A00832D00AA0000000001 /* BLMinePageView.h */,
+				0A0A00842D00AA0000000001 /* BLMinePageView.m */,
+				0A0A00862D00AA0000000001 /* BLHistoryPageView.h */,
+				0A0A00872D00AA0000000001 /* BLHistoryPageView.m */,
+				0A0A00892D00AA0000000001 /* BLFavoritePageView.h */,
+				0A0A008A2D00AA0000000001 /* BLFavoritePageView.m */,
+				0A0A00902D00AA0000000001 /* BLProfileHeaderView.h */,
+				0A0A00912D00AA0000000001 /* BLProfileHeaderView.m */,
+				0A0A00932D00AA0000000001 /* BLProfileTabBarView.h */,
+				0A0A00942D00AA0000000001 /* BLProfileTabBarView.m */,
+				0A0A00962D00AA0000000001 /* BLProfileHomeContentView.h */,
+				0A0A00972D00AA0000000001 /* BLProfileHomeContentView.m */,
+				0A0A00992D00AA0000000001 /* BLProfileDynamicContentView.h */,
+				0A0A009A2D00AA0000000001 /* BLProfileDynamicContentView.m */,
+				0A0A009C2D00AA0000000001 /* BLProfileSubmissionContentView.h */,
+				0A0A009D2D00AA0000000001 /* BLProfileSubmissionContentView.m */,
+				0A0A009F2D00AA0000000001 /* BLProfileFavoriteContentView.h */,
+				0A0A00A02D00AA0000000001 /* BLProfileFavoriteContentView.m */,
+				0A0A00A22D00AA0000000001 /* BLProfileBangumiContentView.h */,
+				0A0A00A32D00AA0000000001 /* BLProfileBangumiContentView.m */,
+				0A0A00A52D00AA0000000001 /* BLProfileSpacePageView.h */,
+				0A0A00A62D00AA0000000001 /* BLProfileSpacePageView.m */,
+				0A0A00A82D00AA0000000001 /* BLMemberAutoCarouselView.h */,
+				0A0A00A92D00AA0000000001 /* BLMemberAutoCarouselView.m */,
+				0A0A00AB2D00AA0000000001 /* BLMemberPaymentBarView.h */,
+				0A0A00AC2D00AA0000000001 /* BLMemberPaymentBarView.m */,
+				0A0A00AE2D00AA0000000001 /* BLMemberCenterPageView.h */,
+				0A0A00AF2D00AA0000000001 /* BLMemberCenterPageView.m */,
+				0A0A00B12D00AA0000000001 /* BLOfflineCachePageView.h */,
+				0A0A00B22D00AA0000000001 /* BLOfflineCachePageView.m */,
+				0A0A00B42D00AA0000000001 /* BLWatchLaterPageView.h */,
+				0A0A00B52D00AA0000000001 /* BLWatchLaterPageView.m */,
+				0A0A00B72D00AA0000000001 /* BLContactServicePageView.h */,
+				0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */,
+				0A0A00252D00AA0000000001 /* BLSearchPageView.h */,
+				0A0A00262D00AA0000000001 /* BLSearchPageView.m */,
+				0A0A00402D00AA0000000001 /* BLHotPageView.h */,
+				0A0A00412D00AA0000000001 /* BLHotPageView.m */,
+				0A0A003D2D00AA0000000001 /* BLHotVideoCellView.h */,
+				0A0A003E2D00AA0000000001 /* BLHotVideoCellView.m */,
+				0A0A004C2D00AA0000000001 /* BLAnimePageView.h */,
+				0A0A004D2D00AA0000000001 /* BLAnimePageView.m */,
+				0A0A00462D00AA0000000001 /* BLAnimeCarouselView.h */,
+				0A0A00472D00AA0000000001 /* BLAnimeCarouselView.m */,
+				0A0A00492D00AA0000000001 /* BLAnimePosterCardView.h */,
+				0A0A004A2D00AA0000000001 /* BLAnimePosterCardView.m */,
+				0A0A00522D00AA0000000001 /* BLFilmPageView.h */,
+				0A0A00532D00AA0000000001 /* BLFilmPageView.m */,
+				0A0A004F2D00AA0000000001 /* BLFilmProgressCardView.h */,
+				0A0A00502D00AA0000000001 /* BLFilmProgressCardView.m */,
+				0A0A00582D00AA0000000001 /* BLPlayerCore.h */,
+				0A0A00592D00AA0000000001 /* BLPlayerCore.m */,
+				0A0A00552D00AA0000000001 /* BLPlayerRenderView.h */,
+				0A0A00562D00AA0000000001 /* BLPlayerRenderView.m */,
+				0A0A00612D00AA0000000001 /* BLPlaybackSpeedToastView.h */,
+				0A0A00622D00AA0000000001 /* BLPlaybackSpeedToastView.m */,
+				0A0A00632D00AA0000000001 /* BLPlaybackSettingsPanelView.h */,
+				0A0A00642D00AA0000000001 /* BLPlaybackSettingsPanelView.m */,
+				0A0A00672D00AA0000000001 /* BLPausedCompactPlayerBarView.h */,
+				0A0A00682D00AA0000000001 /* BLPausedCompactPlayerBarView.m */,
+				0A0A005B2D00AA0000000001 /* BLVideoPlayerView.h */,
+				0A0A005C2D00AA0000000001 /* BLVideoPlayerView.m */,
+				0A0A005E2D00AA0000000001 /* BLVideoDetailViewController.h */,
+				0A0A005F2D00AA0000000001 /* BLVideoDetailViewController.m */,
+				0A0A00282D00AA0000000001 /* BLLiveCarouselView.h */,
+				0A0A00292D00AA0000000001 /* BLLiveCarouselView.m */,
+				0A0A002B2D00AA0000000001 /* BLLivePageView.h */,
+				0A0A002C2D00AA0000000001 /* BLLivePageView.m */,
+				0A0A00342D00AA0000000001 /* BLLiveBeautyPageView.h */,
+				0A0A00352D00AA0000000001 /* BLLiveBeautyPageView.m */,
+				0A0A00312D00AA0000000001 /* BLLiveBeautyLiveCardView.h */,
+				0A0A00322D00AA0000000001 /* BLLiveBeautyLiveCardView.m */,
+				0A0A003A2D00AA0000000001 /* BLLiveLeaguePageView.h */,
+				0A0A003B2D00AA0000000001 /* BLLiveLeaguePageView.m */,
+				0A0A00372D00AA0000000001 /* BLLiveLeagueLiveCardView.h */,
+				0A0A00382D00AA0000000001 /* BLLiveLeagueLiveCardView.m */,
+				0A0A002E2D00AA0000000001 /* BLLivePopularityView.h */,
+				0A0A002F2D00AA0000000001 /* BLLivePopularityView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		0A0A00092D00AA0000000001 /* Products */ = {
@@ -146,6 +399,55 @@
 				0A0A00022D00AA0000000001 /* AppDelegate.m in Sources */,
 				0A0A00032D00AA0000000001 /* SceneDelegate.m in Sources */,
 				0A0A00042D00AA0000000001 /* HomeViewController.m in Sources */,
+				0A0A00242D00AA0000000001 /* BLFeedbackPanelView.m in Sources */,
+				0A0A00272D00AA0000000001 /* BLSearchPageView.m in Sources */,
+				0A0A003F2D00AA0000000001 /* BLHotVideoCellView.m in Sources */,
+				0A0A00422D00AA0000000001 /* BLHotPageView.m in Sources */,
+				0A0A00452D00AA0000000001 /* BLSharePanelView.m in Sources */,
+				0A0A00482D00AA0000000001 /* BLAnimeCarouselView.m in Sources */,
+				0A0A004B2D00AA0000000001 /* BLAnimePosterCardView.m in Sources */,
+				0A0A004E2D00AA0000000001 /* BLAnimePageView.m in Sources */,
+				0A0A00512D00AA0000000001 /* BLFilmProgressCardView.m in Sources */,
+				0A0A00542D00AA0000000001 /* BLFilmPageView.m in Sources */,
+				0A0A00572D00AA0000000001 /* BLPlayerRenderView.m in Sources */,
+				0A0A005A2D00AA0000000001 /* BLPlayerCore.m in Sources */,
+				0A0A00652D00AA0000000001 /* BLPlaybackSpeedToastView.m in Sources */,
+				0A0A00662D00AA0000000001 /* BLPlaybackSettingsPanelView.m in Sources */,
+				0A0A00692D00AA0000000001 /* BLPausedCompactPlayerBarView.m in Sources */,
+				0A0A005D2D00AA0000000001 /* BLVideoPlayerView.m in Sources */,
+				0A0A00602D00AA0000000001 /* BLVideoDetailViewController.m in Sources */,
+				0A0A006C2D00AA0000000001 /* BLFollowingPageView.m in Sources */,
+				0A0A006F2D00AA0000000001 /* BLBangumiCollectionPageView.m in Sources */,
+				0A0A00722D00AA0000000001 /* BLPublishPageView.m in Sources */,
+				0A0A00752D00AA0000000001 /* BLCapturePublishView.m in Sources */,
+				0A0A00782D00AA0000000001 /* BLAlbumUploadView.m in Sources */,
+				0A0A007B2D00AA0000000001 /* BLMallPageView.m in Sources */,
+				0A0A007E2D00AA0000000001 /* BLMallSearchPageView.m in Sources */,
+				0A0A00822D00AA0000000001 /* BLMallCouponPageView.m in Sources */,
+				0A0A00852D00AA0000000001 /* BLMinePageView.m in Sources */,
+				0A0A00882D00AA0000000001 /* BLHistoryPageView.m in Sources */,
+				0A0A008B2D00AA0000000001 /* BLFavoritePageView.m in Sources */,
+				0A0A00922D00AA0000000001 /* BLProfileHeaderView.m in Sources */,
+				0A0A00952D00AA0000000001 /* BLProfileTabBarView.m in Sources */,
+				0A0A00982D00AA0000000001 /* BLProfileHomeContentView.m in Sources */,
+				0A0A009B2D00AA0000000001 /* BLProfileDynamicContentView.m in Sources */,
+				0A0A009E2D00AA0000000001 /* BLProfileSubmissionContentView.m in Sources */,
+				0A0A00A12D00AA0000000001 /* BLProfileFavoriteContentView.m in Sources */,
+				0A0A00A42D00AA0000000001 /* BLProfileBangumiContentView.m in Sources */,
+				0A0A00A72D00AA0000000001 /* BLProfileSpacePageView.m in Sources */,
+				0A0A00AA2D00AA0000000001 /* BLMemberAutoCarouselView.m in Sources */,
+				0A0A00AD2D00AA0000000001 /* BLMemberPaymentBarView.m in Sources */,
+				0A0A00B02D00AA0000000001 /* BLMemberCenterPageView.m in Sources */,
+				0A0A00B32D00AA0000000001 /* BLOfflineCachePageView.m in Sources */,
+				0A0A00B62D00AA0000000001 /* BLWatchLaterPageView.m in Sources */,
+				0A0A00B92D00AA0000000001 /* BLContactServicePageView.m in Sources */,
+				0A0A002A2D00AA0000000001 /* BLLiveCarouselView.m in Sources */,
+				0A0A002D2D00AA0000000001 /* BLLivePageView.m in Sources */,
+				0A0A00332D00AA0000000001 /* BLLiveBeautyLiveCardView.m in Sources */,
+				0A0A00362D00AA0000000001 /* BLLiveBeautyPageView.m in Sources */,
+				0A0A00392D00AA0000000001 /* BLLiveLeagueLiveCardView.m in Sources */,
+				0A0A003C2D00AA0000000001 /* BLLiveLeaguePageView.m in Sources */,
+				0A0A00302D00AA0000000001 /* BLLivePopularityView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,8 +568,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Bilibili-iOS-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -276,7 +578,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codex.bilibili-ios-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.codex.bilibiliiosdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -287,8 +589,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Bilibili-iOS-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -297,7 +599,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codex.bilibili-ios-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.codex.bilibiliiosdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

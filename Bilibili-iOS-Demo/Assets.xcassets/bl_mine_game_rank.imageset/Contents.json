@@ -1,0 +1,15 @@
+﻿{
+    "images":  [
+                   {
+                       "filename":  "bl_mine_game_rank.svg",
+                       "idiom":  "universal"
+                   }
+               ],
+    "properties":  {
+                       "preserves-vector-representation":  true
+                   },
+    "info":  {
+                 "author":  "xcode",
+                 "version":  1
+             }
+}

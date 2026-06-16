@@ -21,6 +21,12 @@
 	</dict>
 	<key>CFBundleDisplayName</key>
 	<string>Bilibili Demo</string>
+	<key>NSCameraUsageDescription</key>
+	<string>用于拍摄视频内容</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>用于拍摄视频时录制声音</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>用于选择要上传的视频和照片</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
