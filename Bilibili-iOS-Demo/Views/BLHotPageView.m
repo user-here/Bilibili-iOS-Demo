@@ -1,6 +1,8 @@
 #import "BLHotPageView.h"
 #import "BLSharePanelView.h"
 #import "BLHotVideoCellView.h"
+#import "../Models/BLHotVideoItem.h"
+#import "../DataSource/BLMockDataSource.h"
 #import <QuartzCore/QuartzCore.h>
 
 static UIColor *BLHotPink(void) {
@@ -79,33 +81,6 @@ static UIColor *BLHotPink(void) {
 
 @end
 
-@interface BLHotVideoItem : NSObject
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *author;
-@property (nonatomic, copy) NSString *views;
-@property (nonatomic, copy) NSString *timeText;
-@property (nonatomic, copy) NSString *duration;
-@property (nonatomic, copy) NSString *tag;
-@property (nonatomic, strong) NSArray<UIColor *> *colors;
-+ (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author views:(NSString *)views timeText:(NSString *)timeText duration:(NSString *)duration tag:(NSString *)tag colors:(NSArray<UIColor *> *)colors;
-@end
-
-@implementation BLHotVideoItem
-
-+ (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author views:(NSString *)views timeText:(NSString *)timeText duration:(NSString *)duration tag:(NSString *)tag colors:(NSArray<UIColor *> *)colors {
-    BLHotVideoItem *item = [[BLHotVideoItem alloc] init];
-    item.title = title;
-    item.author = author;
-    item.views = views;
-    item.timeText = timeText;
-    item.duration = duration;
-    item.tag = tag;
-    item.colors = colors;
-    return item;
-}
-
-@end
-
 @interface BLHotPageView ()
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIStackView *contentStack;
@@ -125,22 +100,7 @@ static UIColor *BLHotPink(void) {
 }
 
 - (void)buildData {
-    UIColor *pink = [UIColor colorWithRed:0.92 green:0.35 blue:0.58 alpha:1.0];
-    UIColor *gold = [UIColor colorWithRed:0.96 green:0.70 blue:0.18 alpha:1.0];
-    UIColor *orange = [UIColor colorWithRed:0.90 green:0.45 blue:0.12 alpha:1.0];
-    UIColor *brown = [UIColor colorWithRed:0.46 green:0.20 blue:0.10 alpha:1.0];
-    UIColor *blue = [UIColor colorWithRed:0.18 green:0.36 blue:0.82 alpha:1.0];
-    UIColor *ink = [UIColor colorWithRed:0.10 green:0.12 blue:0.16 alpha:1.0];
-    UIColor *violet = [UIColor colorWithRed:0.46 green:0.24 blue:0.70 alpha:1.0];
-    UIColor *cyan = [UIColor colorWithRed:0.14 green:0.58 blue:0.76 alpha:1.0];
-
-    self.items = @[
-        [BLHotVideoItem itemWithTitle:@"信不信，你炒不过我" author:@"豆油酱 等联合创作" views:@"25.7万" timeText:@"23小时前" duration:@"5:10" tag:@"" colors:@[pink, gold]],
-        [BLHotVideoItem itemWithTitle:@"《鸣潮》2026夏日游戏节宣传视频" author:@"鸣潮" views:@"27.7万" timeText:@"3小时前" duration:@"4:18" tag:@"人气飙升" colors:@[ink, cyan]],
-        [BLHotVideoItem itemWithTitle:@"《露西亚·逆冕》深渊，为我俯首！！！" author:@"旋风博文" views:@"16.6万" timeText:@"15小时前" duration:@"0:41" tag:@"" colors:@[violet, ink]],
-        [BLHotVideoItem itemWithTitle:@"将夜：第8话 长夜将至" author:@"哔哩哔哩国创" views:@"76.2万" timeText:@"昨天 12:00" duration:@"22:33" tag:@"" colors:@[ink, blue]],
-        [BLHotVideoItem itemWithTitle:@"【硬核实测】把夏凉被叫“雪糕被”，水星家纺..." author:@"花火实验室" views:@"31.4万" timeText:@"昨天" duration:@"8:06" tag:@"花火精选" colors:@[orange, brown]]
-    ];
+    self.items = [[BLMockDataSource shared] hotVideoItems];
 }
 
 - (void)buildView {

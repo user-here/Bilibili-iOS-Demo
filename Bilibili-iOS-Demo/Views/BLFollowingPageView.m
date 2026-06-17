@@ -3,6 +3,10 @@
 #import "BLPlayerCore.h"
 #import "BLPlayerRenderView.h"
 #import "BLVideoURLProvider.h"
+#import "../Models/BLFeedItem.h"
+#import "../DataSource/BLMockDataSource.h"
+
+typedef BLFeedItem BLFollowingFeedItem;
 
 static UIColor *BLFollowingPink(void) {
     return [UIColor colorWithRed:0.93 green:0.29 blue:0.53 alpha:1.0];
@@ -16,24 +20,6 @@ typedef NS_ENUM(NSInteger, BLFollowingTab) {
     BLFollowingTabAll,
     BLFollowingTabVideo
 };
-
-@interface BLFollowingFeedItem : NSObject
-@property (nonatomic, copy) NSString *avatarText;
-@property (nonatomic, copy) NSString *author;
-@property (nonatomic, copy) NSString *time;
-@property (nonatomic, copy) NSString *action;
-@property (nonatomic, copy) NSString *source;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *views;
-@property (nonatomic, copy) NSString *duration;
-@property (nonatomic, copy) NSString *comments;
-@property (nonatomic, copy) NSString *likes;
-@property (nonatomic, strong) UIColor *startColor;
-@property (nonatomic, strong) UIColor *endColor;
-@end
-
-@implementation BLFollowingFeedItem
-@end
 
 @interface BLFollowingGradientView : UIView
 @property (nonatomic, strong) NSArray<UIColor *> *colors;
@@ -689,39 +675,9 @@ typedef NS_ENUM(NSInteger, BLFollowingTab) {
 }
 
 - (void)buildData {
-    self.allItems = @[
-        [self itemWithAvatar:@"央" author:@"央视新闻" time:@"7分钟前" action:@"投稿了视频" source:@"央视新闻" title:@"【世界杯】超级“厄尔尼诺”要来了？" views:@"7186播放" duration:@"17:10" comments:@"33" likes:@"659" colors:@[[UIColor colorWithRed:0.18 green:0.48 blue:0.34 alpha:1.0], [UIColor colorWithRed:0.46 green:0.66 blue:0.48 alpha:1.0]]],
-        [self itemWithAvatar:@"央" author:@"央视新闻" time:@"19分钟前" action:@"与他人联合创作" source:@"战火重燃" title:@"【世界杯】黎以战火重燃" views:@"6321播放" duration:@"24:49" comments:@"68" likes:@"1651" colors:@[[UIColor colorWithRed:0.16 green:0.16 blue:0.20 alpha:1.0], [UIColor colorWithRed:0.82 green:0.18 blue:0.18 alpha:1.0]]],
-        [self itemWithAvatar:@"TED" author:@"TED英语官方" time:@"1小时前" action:@"分享动态" source:@"资本主义能拯救气候吗？" title:@"【TED演讲】资本主义破坏了气候，如今它也能修复吗？" views:@"1085播放" duration:@"41:48" comments:@"评论" likes:@"2" colors:@[[UIColor colorWithWhite:0.68 alpha:1.0], [UIColor colorWithWhite:0.86 alpha:1.0]]],
-        [self itemWithAvatar:@"老" author:@"老郭美食" time:@"投稿了视频" action:@"探秘樱桃种植之处" source:@"大连樱桃" title:@"探秘樱桃种植之处，评测鉴别优质的大连樱桃" views:@"247播放" duration:@"05:42" comments:@"618" likes:@"6072" colors:@[[UIColor colorWithRed:0.92 green:0.86 blue:0.78 alpha:1.0], [UIColor colorWithRed:0.86 green:0.22 blue:0.28 alpha:1.0]]],
-        [self itemWithAvatar:@"TED" author:@"TED英语官方" time:@"1小时前" action:@"分享动态" source:@"太阳能 如何改变印度" title:@"【TED演讲】资本主义破坏了气候，如今它也能修复吗？" views:@"219播放" duration:@"41:48" comments:@"评论" likes:@"1" colors:@[[UIColor colorWithRed:0.86 green:0.84 blue:0.72 alpha:1.0], [UIColor colorWithRed:0.95 green:0.72 blue:0.16 alpha:1.0]]],
-        [self itemWithAvatar:@"TED" author:@"TED英语官方" time:@"1小时前" action:@"分享动态" source:@"冰淇淋商 为何怕热浪？" title:@"【TED演讲】冰淇淋商业如何应对热浪和气候变化" views:@"209播放" duration:@"41:48" comments:@"评论" likes:@"2" colors:@[[UIColor colorWithWhite:0.70 alpha:1.0], [UIColor colorWithRed:0.86 green:0.22 blue:0.18 alpha:1.0]]]
-    ];
-    self.videoItems = @[
-        [self itemWithAvatar:@"You" author:@"YouTube精彩视频" time:@"18分钟前" action:@"投稿了视频" source:@"Claude Code创始人：教你正确编写AI提示词" title:@"Claude Code创始人:教你正确写出AI提示词，还..." views:@"1662播放" duration:@"27:27" comments:@"2" likes:@"106" colors:@[[UIColor colorWithRed:0.72 green:0.58 blue:0.38 alpha:1.0], [UIColor colorWithRed:0.34 green:0.30 blue:0.24 alpha:1.0]]],
-        [self itemWithAvatar:@"央" author:@"央视新闻" time:@"30分钟前" action:@"投稿了视频" source:@"化工废桶 废弃口罩 拖鞋边角料……" title:@"【财经调查】央视曝光劣质回收料牙刷" views:@"1.9万播放" duration:@"09:38" comments:@"153" likes:@"1694" colors:@[[UIColor colorWithRed:0.72 green:0.76 blue:0.72 alpha:1.0], [UIColor colorWithRed:0.86 green:0.78 blue:0.34 alpha:1.0]]],
-        [self itemWithAvatar:@"水" author:@"水论文的程序猿-水导" time:@"2小时前" action:@"投稿了视频" source:@"10名额9244报名 可以学术打假 但不能脱离群众" title:@"硕士扩招的苦果已经显现，还读博士？一次不够来第二次？" views:@"1.2万播放" duration:@"14:13" comments:@"87" likes:@"546" colors:@[[UIColor colorWithRed:0.90 green:0.92 blue:0.84 alpha:1.0], [UIColor colorWithRed:0.90 green:0.18 blue:0.18 alpha:1.0]]],
-        [self itemWithAvatar:@"You" author:@"YouTube精彩视频" time:@"2小时前" action:@"投稿了视频" source:@"黄仁勋: AI时代，人最稀缺的能力" title:@"英伟达黄仁勋：AI时代，人最稀缺的能力到底是..." views:@"3840播放" duration:@"18:22" comments:@"10" likes:@"266" colors:@[[UIColor colorWithRed:0.52 green:0.62 blue:0.52 alpha:1.0], [UIColor colorWithRed:0.24 green:0.24 blue:0.20 alpha:1.0]]],
-        [self itemWithAvatar:@"灰" author:@"灰灵狐学英语" time:@"3小时前" action:@"投稿了视频" source:@"英语学习 每日听力训练" title:@"用真实演讲练习听力，今天这段很适合跟读" views:@"3104播放" duration:@"08:12" comments:@"21" likes:@"188" colors:@[[UIColor colorWithRed:0.60 green:0.70 blue:0.84 alpha:1.0], [UIColor colorWithRed:0.24 green:0.36 blue:0.58 alpha:1.0]]]
-    ];
+    self.allItems = [[BLMockDataSource shared] followingAllItems];
+    self.videoItems = [[BLMockDataSource shared] followingVideoItems];
     self.items = self.allItems;
-}
-
-- (BLFollowingFeedItem *)itemWithAvatar:(NSString *)avatar author:(NSString *)author time:(NSString *)time action:(NSString *)action source:(NSString *)source title:(NSString *)title views:(NSString *)views duration:(NSString *)duration comments:(NSString *)comments likes:(NSString *)likes colors:(NSArray<UIColor *> *)colors {
-    BLFollowingFeedItem *item = [[BLFollowingFeedItem alloc] init];
-    item.avatarText = avatar;
-    item.author = author;
-    item.time = time;
-    item.action = action;
-    item.source = source;
-    item.title = title;
-    item.views = views;
-    item.duration = duration;
-    item.comments = comments;
-    item.likes = likes;
-    item.startColor = colors.firstObject;
-    item.endColor = colors.lastObject;
-    return item;
 }
 
 - (void)buildView {

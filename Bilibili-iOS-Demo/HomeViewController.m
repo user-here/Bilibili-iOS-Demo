@@ -4,22 +4,14 @@
 #import "Views/BLFilmPageView.h"
 #import "Views/BLHotPageView.h"
 #import "Views/BLLivePageView.h"
-#import "Views/BLSearchPageView.h"
 #import "Views/BLVideoDetailViewController.h"
 #import "Views/BLFollowingPageView.h"
-#import "Views/BLPublishPageView.h"
 #import "Views/BLMallPageView.h"
-#import "Views/BLMallSearchPageView.h"
-#import "Views/BLMallCouponPageView.h"
 #import "Views/BLMinePageView.h"
 #import "Views/BLVideoURLProvider.h"
-#import "Views/BLHistoryPageView.h"
-#import "Views/BLFavoritePageView.h"
-#import "Views/BLOfflineCachePageView.h"
-#import "Views/BLWatchLaterPageView.h"
-#import "Views/BLProfileSpacePageView.h"
-#import "Views/BLMemberCenterPageView.h"
-#import "Views/BLContactServicePageView.h"
+#import "Models/BLVideoItem.h"
+#import "DataSource/BLMockDataSource.h"
+#import "Coordinators/BLAppCoordinator.h"
 #import <QuartzCore/QuartzCore.h>
 
 static UIColor *BLPink(void) {
@@ -29,33 +21,6 @@ static UIColor *BLPink(void) {
 static UIColor *BLText(void) {
     return [UIColor colorWithRed:0.16 green:0.16 blue:0.18 alpha:1.0];
 }
-
-@interface BLVideoItem : NSObject
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *author;
-@property (nonatomic, copy) NSString *views;
-@property (nonatomic, copy) NSString *danmaku;
-@property (nonatomic, copy) NSString *duration;
-@property (nonatomic, copy) NSString *badge;
-@property (nonatomic, strong) NSArray<UIColor *> *colors;
-+ (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author views:(NSString *)views danmaku:(NSString *)danmaku duration:(NSString *)duration badge:(NSString *)badge colors:(NSArray<UIColor *> *)colors;
-@end
-
-@implementation BLVideoItem
-
-+ (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author views:(NSString *)views danmaku:(NSString *)danmaku duration:(NSString *)duration badge:(NSString *)badge colors:(NSArray<UIColor *> *)colors {
-    BLVideoItem *item = [[BLVideoItem alloc] init];
-    item.title = title;
-    item.author = author;
-    item.views = views;
-    item.danmaku = danmaku;
-    item.duration = duration;
-    item.badge = badge;
-    item.colors = colors;
-    return item;
-}
-
-@end
 
 @interface BLGradientView : UIView
 @property (nonatomic, strong) NSArray<UIColor *> *colors;
@@ -81,7 +46,7 @@ static UIColor *BLText(void) {
 
 @end
 
-@interface HomeViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface HomeViewController ()
 @property (nonatomic, strong) UIView *topBar;
 @property (nonatomic, strong) UIScrollView *feedScrollView;
 @property (nonatomic, strong) UIStackView *feedStackView;
@@ -106,28 +71,7 @@ static UIColor *BLText(void) {
 @property (nonatomic, strong) UIButton *featuredLikeButton;
 @property (nonatomic, strong) UILabel *featuredLikeCountLabel;
 @property (nonatomic, strong) BLFeedbackPanelView *feedbackPanelView;
-@property (nonatomic, strong) BLSearchPageView *searchPageView;
-@property (nonatomic, strong) NSLayoutConstraint *searchPageLeadingConstraint;
-@property (nonatomic, strong) BLPublishPageView *publishPageView;
-@property (nonatomic, strong) NSLayoutConstraint *publishPageLeadingConstraint;
-@property (nonatomic, strong) BLMallSearchPageView *mallSearchPageView;
-@property (nonatomic, strong) NSLayoutConstraint *mallSearchPageLeadingConstraint;
-@property (nonatomic, strong) BLMallCouponPageView *mallCouponPageView;
-@property (nonatomic, strong) NSLayoutConstraint *mallCouponPageLeadingConstraint;
-@property (nonatomic, strong) BLOfflineCachePageView *offlineCachePageView;
-@property (nonatomic, strong) NSLayoutConstraint *offlineCachePageLeadingConstraint;
-@property (nonatomic, strong) BLWatchLaterPageView *watchLaterPageView;
-@property (nonatomic, strong) NSLayoutConstraint *watchLaterPageLeadingConstraint;
-@property (nonatomic, strong) BLHistoryPageView *historyPageView;
-@property (nonatomic, strong) NSLayoutConstraint *historyPageLeadingConstraint;
-@property (nonatomic, strong) BLFavoritePageView *favoritePageView;
-@property (nonatomic, strong) NSLayoutConstraint *favoritePageLeadingConstraint;
-@property (nonatomic, strong) BLProfileSpacePageView *profileSpacePageView;
-@property (nonatomic, strong) NSLayoutConstraint *profileSpacePageLeadingConstraint;
-@property (nonatomic, strong) BLMemberCenterPageView *memberCenterPageView;
-@property (nonatomic, strong) NSLayoutConstraint *memberCenterPageLeadingConstraint;
-@property (nonatomic, strong) BLContactServicePageView *contactServicePageView;
-@property (nonatomic, strong) NSLayoutConstraint *contactServicePageLeadingConstraint;
+@property (nonatomic, strong) BLAppCoordinator *coordinator;
 @end
 
 @implementation HomeViewController
@@ -142,6 +86,9 @@ static UIColor *BLText(void) {
     [self buildTopBar];
     [self buildFeed];
     [self buildBottomBar];
+    self.coordinator = [[BLAppCoordinator alloc] initWithRootView:self.view
+                                                        bottomBar:self.bottomBar
+                                           presentingViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -154,27 +101,11 @@ static UIColor *BLText(void) {
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.followingPageView deactivate];
-    [self.publishPageView deactivate];
-    [self.memberCenterPageView deactivate];
+    [self.coordinator deactivateAllPages];
 }
 
 - (void)buildData {
-    UIColor *blue = [UIColor colorWithRed:0.11 green:0.28 blue:0.78 alpha:1.0];
-    UIColor *cyan = [UIColor colorWithRed:0.18 green:0.76 blue:0.95 alpha:1.0];
-    UIColor *rose = [UIColor colorWithRed:0.96 green:0.45 blue:0.64 alpha:1.0];
-    UIColor *purple = [UIColor colorWithRed:0.46 green:0.34 blue:0.86 alpha:1.0];
-    UIColor *green = [UIColor colorWithRed:0.18 green:0.64 blue:0.46 alpha:1.0];
-    UIColor *gold = [UIColor colorWithRed:0.98 green:0.73 blue:0.24 alpha:1.0];
-    UIColor *ink = [UIColor colorWithRed:0.12 green:0.13 blue:0.16 alpha:1.0];
-
-    self.items = @[
-        [BLVideoItem itemWithTitle:@"如果绯雪在茶里添加热熔糖果，然后再拿去给洛瑟拉喝，那么一切又会怎样发展..." author:@"B站动画放映室" views:@"81.5万" danmaku:@"2083" duration:@"4:18" badge:@"动画混剪" colors:@[rose, purple]],
-        [BLVideoItem itemWithTitle:@"3分钟codex桌面版接入DeepSeek，无需账号配置" author:@"唐师兄Terence" views:@"1479" danmaku:@"-" duration:@"2:36" badge:@"DeepSeek" colors:@[blue, cyan]],
-        [BLVideoItem itemWithTitle:@"爱弥斯：“来亲亲我，亲一口学习一个小时！”" author:@"宪云王大可" views:@"4.3万" danmaku:@"119" duration:@"1:09" badge:@"新番" colors:@[ink, rose]],
-        [BLVideoItem itemWithTitle:@"这段动作戏的镜头调度太爽了，反复看三遍" author:@"番剧剪辑社" views:@"12.7万" danmaku:@"402" duration:@"3:44" badge:@"高燃" colors:@[ink, green]],
-        [BLVideoItem itemWithTitle:@"今天的蛋糕被谁偷吃了？现场只留下一个表情包" author:@"游戏观察员" views:@"26.8万" danmaku:@"285" duration:@"1:29" badge:@"日常" colors:@[gold, rose]],
-        [BLVideoItem itemWithTitle:@"毕业歌会现场回顾：那些熟悉旋律再次响起" author:@"音乐现场" views:@"58.1万" danmaku:@"912" duration:@"5:20" badge:@"毕业歌会" colors:@[cyan, purple]]
-    ];
+    self.items = [[BLMockDataSource shared] recommendFeedItems];
 }
 
 - (void)buildTopBar {
@@ -418,7 +349,7 @@ static UIColor *BLText(void) {
     __weak typeof(self) weakSelf = self;
     self.followingPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
         [weakSelf.followingPageView deactivate];
-        [weakSelf openPlayerWithURL:URL title:title author:author];
+        [weakSelf.coordinator openPlayerWithURL:URL title:title author:author];
     };
     [self.view addSubview:self.followingPageView];
     [NSLayoutConstraint activateConstraints:@[
@@ -437,10 +368,10 @@ static UIColor *BLText(void) {
     self.mallPageView.hidden = YES;
     __weak typeof(self) weakSelf = self;
     self.mallPageView.searchTapped = ^{
-        [weakSelf showMallSearchPage];
+        [weakSelf.coordinator showMallSearchPage];
     };
     self.mallPageView.couponTapped = ^{
-        [weakSelf showMallCouponPage];
+        [weakSelf.coordinator showMallCouponPage];
     };
     [self.view addSubview:self.mallPageView];
     [NSLayoutConstraint activateConstraints:@[
@@ -459,25 +390,25 @@ static UIColor *BLText(void) {
     self.minePageView.hidden = YES;
     __weak typeof(self) weakSelf = self;
     self.minePageView.offlineCacheTapped = ^{
-        [weakSelf showOfflineCachePage];
+        [weakSelf.coordinator showOfflineCachePage];
     };
     self.minePageView.historyTapped = ^{
-        [weakSelf showHistoryPage];
+        [weakSelf.coordinator showHistoryPage];
     };
     self.minePageView.favoriteTapped = ^{
-        [weakSelf showFavoritePage];
+        [weakSelf.coordinator showFavoritePage];
     };
     self.minePageView.watchLaterTapped = ^{
-        [weakSelf showWatchLaterPage];
+        [weakSelf.coordinator showWatchLaterPage];
     };
     self.minePageView.profileTapped = ^{
-        [weakSelf showProfileSpacePage];
+        [weakSelf.coordinator showProfileSpacePage];
     };
     self.minePageView.memberCenterTapped = ^{
-        [weakSelf showMemberCenterPage];
+        [weakSelf.coordinator showMemberCenterPage];
     };
     self.minePageView.contactServiceTapped = ^{
-        [weakSelf showContactServicePage];
+        [weakSelf.coordinator showContactServicePage];
     };
     [self.view addSubview:self.minePageView];
     [NSLayoutConstraint activateConstraints:@[
@@ -689,49 +620,11 @@ static UIColor *BLText(void) {
 }
 
 - (void)showSearchPage {
-    [self buildSearchPageIfNeeded];
-    self.searchPageView.hidden = NO;
-    self.searchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [self.view layoutIfNeeded];
-
-    self.searchPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self.searchPageView focusSearchField];
-    }];
+    [self.coordinator showSearchPage];
 }
 
-- (void)dismissSearchPage {
-    [self.searchPageView resignSearchField];
-    self.searchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.searchPageView.hidden = YES;
-    }];
-}
-
-- (void)buildSearchPageIfNeeded {
-    if (self.searchPageView != nil) {
-        return;
-    }
-
-    self.searchPageView = [[BLSearchPageView alloc] init];
-    self.searchPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.searchPageView.backTapped = ^{
-        [weakSelf dismissSearchPage];
-    };
-    [self.view addSubview:self.searchPageView];
-
-    self.searchPageLeadingConstraint = [self.searchPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.searchPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.searchPageLeadingConstraint,
-        [self.searchPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.searchPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
+- (void)showProfileSpacePage {
+    [self.coordinator showProfileSpacePage];
 }
 - (UIView *)compactCardWithItem:(BLVideoItem *)item {
     UIView *card = [self cardContainer];
@@ -1125,459 +1018,19 @@ static UIColor *BLText(void) {
 }
 
 - (void)showMallSearchPage {
-    [self buildMallSearchPageIfNeeded];
-    self.mallSearchPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.mallSearchPageView];
-    self.mallSearchPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
+    [self.coordinator showMallSearchPage];
 }
 
 - (void)showHistoryPage {
-    [self buildHistoryPageIfNeeded];
-    self.historyPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.historyPageView];
-    self.historyPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)showOfflineCachePage {
-    [self buildOfflineCachePageIfNeeded];
-    self.offlineCachePageView.hidden = NO;
-    [self.view bringSubviewToFront:self.offlineCachePageView];
-    self.offlineCachePageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)showFavoritePage {
-    [self buildFavoritePageIfNeeded];
-    self.favoritePageView.hidden = NO;
-    [self.view bringSubviewToFront:self.favoritePageView];
-    self.favoritePageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)showWatchLaterPage {
-    [self buildWatchLaterPageIfNeeded];
-    self.watchLaterPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.watchLaterPageView];
-    self.watchLaterPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)showProfileSpacePage {
-    [self buildProfileSpacePageIfNeeded];
-    self.profileSpacePageView.hidden = NO;
-    [self.view bringSubviewToFront:self.profileSpacePageView];
-    self.profileSpacePageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)showMemberCenterPage {
-    [self buildMemberCenterPageIfNeeded];
-    self.memberCenterPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.memberCenterPageView];
-    self.memberCenterPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self.memberCenterPageView activate];
-    }];
-}
-
-- (void)showContactServicePage {
-    [self buildContactServicePageIfNeeded];
-    self.contactServicePageView.hidden = NO;
-    [self.view bringSubviewToFront:self.contactServicePageView];
-    self.contactServicePageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)dismissMemberCenterPage {
-    [self.memberCenterPageView deactivate];
-    self.memberCenterPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self.memberCenterPageView removeFromSuperview];
-        self.memberCenterPageView = nil;
-        self.memberCenterPageLeadingConstraint = nil;
-    }];
-}
-
-- (void)buildMemberCenterPageIfNeeded {
-    if (self.memberCenterPageView != nil) {
-        return;
-    }
-    self.memberCenterPageView = [[BLMemberCenterPageView alloc] init];
-    self.memberCenterPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.memberCenterPageView.closeTapped = ^{
-        [weakSelf dismissMemberCenterPage];
-    };
-    [self.view addSubview:self.memberCenterPageView];
-    self.memberCenterPageLeadingConstraint = [self.memberCenterPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.memberCenterPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.memberCenterPageLeadingConstraint,
-        [self.memberCenterPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.memberCenterPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissContactServicePage {
-    self.contactServicePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.contactServicePageView.hidden = YES;
-    }];
-}
-
-- (void)buildContactServicePageIfNeeded {
-    if (self.contactServicePageView != nil) {
-        return;
-    }
-    self.contactServicePageView = [[BLContactServicePageView alloc] init];
-    self.contactServicePageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.contactServicePageView.closeTapped = ^{
-        [weakSelf dismissContactServicePage];
-    };
-    [self.view addSubview:self.contactServicePageView];
-    self.contactServicePageLeadingConstraint = [self.contactServicePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.contactServicePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.contactServicePageLeadingConstraint,
-        [self.contactServicePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.contactServicePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissProfileSpacePage {
-    self.profileSpacePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.profileSpacePageView.hidden = YES;
-    }];
-}
-
-- (void)buildProfileSpacePageIfNeeded {
-    if (self.profileSpacePageView != nil) {
-        return;
-    }
-    self.profileSpacePageView = [[BLProfileSpacePageView alloc] init];
-    self.profileSpacePageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.profileSpacePageView.closeTapped = ^{
-        [weakSelf dismissProfileSpacePage];
-    };
-    self.profileSpacePageView.chooseBackgroundTapped = ^{
-        [weakSelf showProfileBackgroundPicker];
-    };
-    [self.view addSubview:self.profileSpacePageView];
-    self.profileSpacePageLeadingConstraint = [self.profileSpacePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.profileSpacePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.profileSpacePageLeadingConstraint,
-        [self.profileSpacePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.profileSpacePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)showProfileBackgroundPicker {
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        return;
-    }
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
-    UIImage *image = info[UIImagePickerControllerEditedImage];
-    if (image == nil) {
-        image = info[UIImagePickerControllerOriginalImage];
-    }
-    if (image != nil) {
-        [self.profileSpacePageView setProfileBackgroundImage:image];
-    }
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)dismissOfflineCachePage {
-    self.offlineCachePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.offlineCachePageView.hidden = YES;
-    }];
-}
-
-- (void)buildOfflineCachePageIfNeeded {
-    if (self.offlineCachePageView != nil) {
-        return;
-    }
-    self.offlineCachePageView = [[BLOfflineCachePageView alloc] init];
-    self.offlineCachePageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.offlineCachePageView.closeTapped = ^{
-        [weakSelf dismissOfflineCachePage];
-    };
-    self.offlineCachePageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
-        [weakSelf openPlayerWithURL:URL title:title author:author];
-    };
-    [self.view addSubview:self.offlineCachePageView];
-    self.offlineCachePageLeadingConstraint = [self.offlineCachePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.offlineCachePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.offlineCachePageLeadingConstraint,
-        [self.offlineCachePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.offlineCachePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissFavoritePage {
-    self.favoritePageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.favoritePageView.hidden = YES;
-    }];
-}
-
-- (void)buildFavoritePageIfNeeded {
-    if (self.favoritePageView != nil) {
-        return;
-    }
-    self.favoritePageView = [[BLFavoritePageView alloc] init];
-    self.favoritePageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.favoritePageView.closeTapped = ^{
-        [weakSelf dismissFavoritePage];
-    };
-    self.favoritePageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
-        [weakSelf openPlayerWithURL:URL title:title author:author];
-    };
-    [self.view addSubview:self.favoritePageView];
-    self.favoritePageLeadingConstraint = [self.favoritePageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.favoritePageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.favoritePageLeadingConstraint,
-        [self.favoritePageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.favoritePageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissWatchLaterPage {
-    self.watchLaterPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.watchLaterPageView.hidden = YES;
-    }];
-}
-
-- (void)buildWatchLaterPageIfNeeded {
-    if (self.watchLaterPageView != nil) {
-        return;
-    }
-    self.watchLaterPageView = [[BLWatchLaterPageView alloc] init];
-    self.watchLaterPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.watchLaterPageView.closeTapped = ^{
-        [weakSelf dismissWatchLaterPage];
-    };
-    self.watchLaterPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
-        [weakSelf openPlayerWithURL:URL title:title author:author];
-    };
-    [self.view addSubview:self.watchLaterPageView];
-    self.watchLaterPageLeadingConstraint = [self.watchLaterPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.watchLaterPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.watchLaterPageLeadingConstraint,
-        [self.watchLaterPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.watchLaterPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissHistoryPage {
-    self.historyPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.historyPageView.hidden = YES;
-    }];
-}
-
-- (void)buildHistoryPageIfNeeded {
-    if (self.historyPageView != nil) {
-        return;
-    }
-    self.historyPageView = [[BLHistoryPageView alloc] init];
-    self.historyPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.historyPageView.closeTapped = ^{
-        [weakSelf dismissHistoryPage];
-    };
-    self.historyPageView.videoSelected = ^(NSURL *URL, NSString *title, NSString *author) {
-        [weakSelf openPlayerWithURL:URL title:title author:author];
-    };
-    [self.view addSubview:self.historyPageView];
-    self.historyPageLeadingConstraint = [self.historyPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.historyPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.historyPageLeadingConstraint,
-        [self.historyPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.historyPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
-}
-
-- (void)dismissMallSearchPage {
-    self.mallSearchPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.mallSearchPageView.hidden = YES;
-    }];
-}
-
-- (void)buildMallSearchPageIfNeeded {
-    if (self.mallSearchPageView != nil) {
-        return;
-    }
-    self.mallSearchPageView = [[BLMallSearchPageView alloc] init];
-    self.mallSearchPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.mallSearchPageView.closeTapped = ^{
-        [weakSelf dismissMallSearchPage];
-    };
-    [self.view addSubview:self.mallSearchPageView];
-    self.mallSearchPageLeadingConstraint = [self.mallSearchPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.mallSearchPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.mallSearchPageLeadingConstraint,
-        [self.mallSearchPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.mallSearchPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
+    [self.coordinator showHistoryPage];
 }
 
 - (void)showMallCouponPage {
-    [self buildMallCouponPageIfNeeded];
-    self.mallCouponPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.mallCouponPageView];
-    self.mallCouponPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
-}
-
-- (void)dismissMallCouponPage {
-    self.mallCouponPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.mallCouponPageView.hidden = YES;
-    }];
-}
-
-- (void)buildMallCouponPageIfNeeded {
-    if (self.mallCouponPageView != nil) {
-        return;
-    }
-    self.mallCouponPageView = [[BLMallCouponPageView alloc] init];
-    self.mallCouponPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.mallCouponPageView.closeTapped = ^{
-        [weakSelf dismissMallCouponPage];
-    };
-    self.mallCouponPageView.searchTapped = ^{
-        [weakSelf showMallSearchPage];
-    };
-    [self.view addSubview:self.mallCouponPageView];
-    self.mallCouponPageLeadingConstraint = [self.mallCouponPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.mallCouponPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.mallCouponPageLeadingConstraint,
-        [self.mallCouponPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.mallCouponPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
+    [self.coordinator showMallCouponPage];
 }
 
 - (void)showPublishPage {
-    [self buildPublishPageIfNeeded];
-    [self.followingPageView deactivate];
-    self.publishPageView.hidden = NO;
-    [self.view bringSubviewToFront:self.publishPageView];
-    self.publishPageLeadingConstraint.constant = 0.0;
-    [UIView animateWithDuration:0.28 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self.publishPageView activate];
-    }];
-}
-
-- (void)dismissPublishPage {
-    [self.publishPageView deactivate];
-    self.publishPageLeadingConstraint.constant = CGRectGetWidth(self.view.bounds);
-    [UIView animateWithDuration:0.24 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.publishPageView.hidden = YES;
-        if (self.followingPageView != nil && !self.followingPageView.hidden) {
-            [self.followingPageView activate];
-        }
-    }];
-}
-
-- (void)buildPublishPageIfNeeded {
-    if (self.publishPageView != nil) {
-        return;
-    }
-    self.publishPageView = [[BLPublishPageView alloc] init];
-    self.publishPageView.hidden = YES;
-    __weak typeof(self) weakSelf = self;
-    self.publishPageView.closeTapped = ^{
-        [weakSelf dismissPublishPage];
-    };
-    [self.view addSubview:self.publishPageView];
-    self.publishPageLeadingConstraint = [self.publishPageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:CGRectGetWidth(self.view.bounds)];
-    [NSLayoutConstraint activateConstraints:@[
-        [self.publishPageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        self.publishPageLeadingConstraint,
-        [self.publishPageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-        [self.publishPageView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-    ]];
-    [self.view layoutIfNeeded];
+    [self.coordinator showPublishPageWithFollowingPageView:self.followingPageView];
 }
 
 - (UIView *)uploadTab {

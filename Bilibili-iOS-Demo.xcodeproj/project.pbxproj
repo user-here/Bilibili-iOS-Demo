@@ -64,6 +64,16 @@
 		0A0A00B92D00AA0000000001 /* BLContactServicePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */; };
 		0A0A00BC2D00AA0000000001 /* BLVideoURLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00BB2D00AA0000000001 /* BLVideoURLProvider.m */; };
 		0A0A00BE2D00AA0000000001 /* Videos in Resources */ = {isa = PBXBuildFile; fileRef = 0A0A00BD2D00AA0000000001 /* Videos */; };
+		0A0B00042D00000000000001 /* BLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0B00032D00000000000001 /* BLConstants.m */; };
+		0A0B00072D00000000000001 /* UIView+BLLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0B00062D00000000000001 /* UIView+BLLayout.m */; };
+		0A0B000A2D00000000000001 /* BLCoverGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0B00092D00000000000001 /* BLCoverGradientView.m */; };
+		0A0C00032D00000000000001 /* BLVideoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C00022D00000000000001 /* BLVideoItem.m */; };
+		0A0C00062D00000000000001 /* BLFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C00052D00000000000001 /* BLFeedItem.m */; };
+		0A0C00092D00000000000001 /* BLHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C00082D00000000000001 /* BLHistoryItem.m */; };
+		0A0C000C2D00000000000001 /* BLHotVideoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C000B2D00000000000001 /* BLHotVideoItem.m */; };
+		0A0C000F2D00000000000001 /* BLMallProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C000E2D00000000000001 /* BLMallProduct.m */; };
+		0A0D00022D00000000000001 /* BLMockDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D00012D00000000000001 /* BLMockDataSource.m */; };
+		0A0E00022D00000000000001 /* BLAppCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0E00012D00000000000001 /* BLAppCoordinator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +189,27 @@
 		0A0A00BA2D00AA0000000001 /* BLVideoURLProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLVideoURLProvider.h; sourceTree = "<group>"; };
 		0A0A00BB2D00AA0000000001 /* BLVideoURLProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLVideoURLProvider.m; sourceTree = "<group>"; };
 		0A0A00BD2D00AA0000000001 /* Videos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Videos; sourceTree = "<group>"; };
+		0A0B00012D00000000000001 /* BLTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLTheme.h; sourceTree = "<group>"; };
+		0A0B00022D00000000000001 /* BLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLConstants.h; sourceTree = "<group>"; };
+		0A0B00032D00000000000001 /* BLConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLConstants.m; sourceTree = "<group>"; };
+		0A0B00052D00000000000001 /* UIView+BLLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+BLLayout.h"; sourceTree = "<group>"; };
+		0A0B00062D00000000000001 /* UIView+BLLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+BLLayout.m"; sourceTree = "<group>"; };
+		0A0B00082D00000000000001 /* BLCoverGradientView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLCoverGradientView.h; sourceTree = "<group>"; };
+		0A0B00092D00000000000001 /* BLCoverGradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLCoverGradientView.m; sourceTree = "<group>"; };
+		0A0C00012D00000000000001 /* BLVideoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLVideoItem.h; sourceTree = "<group>"; };
+		0A0C00022D00000000000001 /* BLVideoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLVideoItem.m; sourceTree = "<group>"; };
+		0A0C00042D00000000000001 /* BLFeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLFeedItem.h; sourceTree = "<group>"; };
+		0A0C00052D00000000000001 /* BLFeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLFeedItem.m; sourceTree = "<group>"; };
+		0A0C00072D00000000000001 /* BLHistoryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLHistoryItem.h; sourceTree = "<group>"; };
+		0A0C00082D00000000000001 /* BLHistoryItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLHistoryItem.m; sourceTree = "<group>"; };
+		0A0C000A2D00000000000001 /* BLHotVideoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLHotVideoItem.h; sourceTree = "<group>"; };
+		0A0C000B2D00000000000001 /* BLHotVideoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLHotVideoItem.m; sourceTree = "<group>"; };
+		0A0C000D2D00000000000001 /* BLMallProduct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMallProduct.h; sourceTree = "<group>"; };
+		0A0C000E2D00000000000001 /* BLMallProduct.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMallProduct.m; sourceTree = "<group>"; };
+		0A0D00002D00000000000001 /* BLMockDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMockDataSource.h; sourceTree = "<group>"; };
+		0A0D00012D00000000000001 /* BLMockDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLMockDataSource.m; sourceTree = "<group>"; };
+		0A0E00002D00000000000001 /* BLAppCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAppCoordinator.h; sourceTree = "<group>"; };
+		0A0E00012D00000000000001 /* BLAppCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAppCoordinator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +241,10 @@
 				0A0A00142D00AA0000000001 /* SceneDelegate.m */,
 				0A0A00152D00AA0000000001 /* HomeViewController.h */,
 				0A0A00162D00AA0000000001 /* HomeViewController.m */,
+				0A0B000B2D00000000000001 /* Common */,
+				0A0C00102D00000000000001 /* Models */,
+				0A0D00032D00000000000001 /* DataSource */,
+				0A0E00032D00000000000001 /* Coordinators */,
 				0A0A00212D00AA0000000001 /* Views */,
 				0A0A00172D00AA0000000001 /* Info.plist */,
 				0A0A00192D00AA0000000001 /* LaunchScreen.storyboard */,
@@ -217,6 +252,55 @@
 				0A0A00BD2D00AA0000000001 /* Videos */,
 			);
 			path = "Bilibili-iOS-Demo";
+			sourceTree = "<group>";
+		};
+		0A0B000B2D00000000000001 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0A0B00012D00000000000001 /* BLTheme.h */,
+				0A0B00022D00000000000001 /* BLConstants.h */,
+				0A0B00032D00000000000001 /* BLConstants.m */,
+				0A0B00052D00000000000001 /* UIView+BLLayout.h */,
+				0A0B00062D00000000000001 /* UIView+BLLayout.m */,
+				0A0B00082D00000000000001 /* BLCoverGradientView.h */,
+				0A0B00092D00000000000001 /* BLCoverGradientView.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		0A0C00102D00000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0A0C00012D00000000000001 /* BLVideoItem.h */,
+				0A0C00022D00000000000001 /* BLVideoItem.m */,
+				0A0C00042D00000000000001 /* BLFeedItem.h */,
+				0A0C00052D00000000000001 /* BLFeedItem.m */,
+				0A0C00072D00000000000001 /* BLHistoryItem.h */,
+				0A0C00082D00000000000001 /* BLHistoryItem.m */,
+				0A0C000A2D00000000000001 /* BLHotVideoItem.h */,
+				0A0C000B2D00000000000001 /* BLHotVideoItem.m */,
+				0A0C000D2D00000000000001 /* BLMallProduct.h */,
+				0A0C000E2D00000000000001 /* BLMallProduct.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0A0D00032D00000000000001 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				0A0D00002D00000000000001 /* BLMockDataSource.h */,
+				0A0D00012D00000000000001 /* BLMockDataSource.m */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		0A0E00032D00000000000001 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				0A0E00002D00000000000001 /* BLAppCoordinator.h */,
+				0A0E00012D00000000000001 /* BLAppCoordinator.m */,
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 		0A0A00212D00AA0000000001 /* Views */ = {
@@ -421,6 +505,16 @@
 				0A0A00572D00AA0000000001 /* BLPlayerRenderView.m in Sources */,
 				0A0A005A2D00AA0000000001 /* BLPlayerCore.m in Sources */,
 				0A0A00BC2D00AA0000000001 /* BLVideoURLProvider.m in Sources */,
+				0A0B00042D00000000000001 /* BLConstants.m in Sources */,
+				0A0B00072D00000000000001 /* UIView+BLLayout.m in Sources */,
+				0A0B000A2D00000000000001 /* BLCoverGradientView.m in Sources */,
+				0A0C00032D00000000000001 /* BLVideoItem.m in Sources */,
+				0A0C00062D00000000000001 /* BLFeedItem.m in Sources */,
+				0A0C00092D00000000000001 /* BLHistoryItem.m in Sources */,
+				0A0C000C2D00000000000001 /* BLHotVideoItem.m in Sources */,
+				0A0C000F2D00000000000001 /* BLMallProduct.m in Sources */,
+				0A0D00022D00000000000001 /* BLMockDataSource.m in Sources */,
+				0A0E00022D00000000000001 /* BLAppCoordinator.m in Sources */,
 				0A0A00652D00AA0000000001 /* BLPlaybackSpeedToastView.m in Sources */,
 				0A0A00662D00AA0000000001 /* BLPlaybackSettingsPanelView.m in Sources */,
 				0A0A00692D00AA0000000001 /* BLPausedCompactPlayerBarView.m in Sources */,
