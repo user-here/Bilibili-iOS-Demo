@@ -2,6 +2,7 @@
 #import "BLBangumiCollectionPageView.h"
 #import "BLPlayerCore.h"
 #import "BLPlayerRenderView.h"
+#import "BLVideoURLProvider.h"
 
 static UIColor *BLFollowingPink(void) {
     return [UIColor colorWithRed:0.93 green:0.29 blue:0.53 alpha:1.0];
@@ -10,8 +11,6 @@ static UIColor *BLFollowingPink(void) {
 static UIColor *BLFollowingText(void) {
     return [UIColor colorWithRed:0.14 green:0.14 blue:0.16 alpha:1.0];
 }
-
-static NSString * const BLFollowingVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
 
 typedef NS_ENUM(NSInteger, BLFollowingTab) {
     BLFollowingTabAll,
@@ -603,7 +602,7 @@ typedef NS_ENUM(NSInteger, BLFollowingTab) {
     if (self.item == nil) {
         return;
     }
-    NSURL *URL = [NSURL URLWithString:BLFollowingVideoURLString];
+    NSURL *URL = [BLVideoURLProvider defaultVideoURL];
     if (!self.videoLoaded && URL != nil) {
         self.videoLoaded = YES;
         [self.playerCore loadURL:URL autoplay:YES];
@@ -916,7 +915,7 @@ typedef NS_ENUM(NSInteger, BLFollowingTab) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BLFollowingFeedItem *item = self.items[indexPath.row];
-    NSURL *URL = [NSURL URLWithString:BLFollowingVideoURLString];
+    NSURL *URL = [BLVideoURLProvider defaultVideoURL];
     if (URL != nil && self.videoSelected) {
         self.videoSelected(URL, item.title, item.author);
     }

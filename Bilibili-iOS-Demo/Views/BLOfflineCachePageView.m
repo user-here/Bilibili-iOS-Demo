@@ -1,10 +1,9 @@
 #import "BLOfflineCachePageView.h"
+#import "BLVideoURLProvider.h"
 #import <QuartzCore/QuartzCore.h>
 
 static UIColor *BLOfflineText(void) { return [UIColor colorWithRed:0.15 green:0.14 blue:0.16 alpha:1.0]; }
 static UIColor *BLOfflineSubText(void) { return [UIColor colorWithWhite:0.58 alpha:1.0]; }
-static NSString * const BLOfflineFallbackVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
-
 @implementation BLOfflineCacheItem
 
 + (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author dateText:(NSString *)dateText statusText:(NSString *)statusText videoURLString:(NSString *)videoURLString seed:(NSInteger)seed {
@@ -346,8 +345,8 @@ static NSString * const BLOfflineFallbackVideoURLString = @"https://flyable-over
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BLOfflineCacheItem *item = self.items[indexPath.row];
-    NSString *URLString = item.videoURLString.length > 0 ? item.videoURLString : BLOfflineFallbackVideoURLString;
-    NSURL *URL = [NSURL URLWithString:URLString];
+    NSString *URLString = item.videoURLString.length > 0 ? item.videoURLString : BLDefaultLocalVideoRelativePath;
+    NSURL *URL = [BLVideoURLProvider videoURLForRelativePath:URLString];
     if (URL != nil && self.videoSelected) {
         self.videoSelected(URL, item.title ?: @"", item.author ?: @"");
     }

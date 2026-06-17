@@ -1,11 +1,11 @@
 #import "BLHistoryPageView.h"
+#import "BLVideoURLProvider.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
 static UIColor *BLHistoryPink(void) { return [UIColor colorWithRed:0.94 green:0.39 blue:0.56 alpha:1.0]; }
 static UIColor *BLHistoryText(void) { return [UIColor colorWithRed:0.15 green:0.14 blue:0.16 alpha:1.0]; }
 static UIColor *BLHistorySubText(void) { return [UIColor colorWithWhite:0.56 alpha:1.0]; }
-static NSString * const BLHistoryTestVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
 static char BLHistoryItemAssociationKey;
 
 @interface BLHistoryPageView ()
@@ -258,9 +258,9 @@ static char BLHistoryItemAssociationKey;
     NSDictionary *item = objc_getAssociatedObject(sender, &BLHistoryItemAssociationKey);
     NSString *URLString = item[@"videoURL"];
     if (URLString.length == 0) {
-        URLString = BLHistoryTestVideoURLString;
+        URLString = BLDefaultLocalVideoRelativePath;
     }
-    NSURL *URL = [NSURL URLWithString:URLString];
+    NSURL *URL = [BLVideoURLProvider videoURLForRelativePath:URLString];
     if (URL != nil && self.videoSelected) {
         NSString *title = item[@"title"] ?: @"";
         NSString *author = item[@"author"] ?: @"";

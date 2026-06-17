@@ -62,6 +62,8 @@
 		0A0A00B32D00AA0000000001 /* BLOfflineCachePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B22D00AA0000000001 /* BLOfflineCachePageView.m */; };
 		0A0A00B62D00AA0000000001 /* BLWatchLaterPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B52D00AA0000000001 /* BLWatchLaterPageView.m */; };
 		0A0A00B92D00AA0000000001 /* BLContactServicePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */; };
+		0A0A00BC2D00AA0000000001 /* BLVideoURLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A00BB2D00AA0000000001 /* BLVideoURLProvider.m */; };
+		0A0A00BE2D00AA0000000001 /* Videos in Resources */ = {isa = PBXBuildFile; fileRef = 0A0A00BD2D00AA0000000001 /* Videos */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -174,6 +176,9 @@
 		0A0A00B52D00AA0000000001 /* BLWatchLaterPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLWatchLaterPageView.m; sourceTree = "<group>"; };
 		0A0A00B72D00AA0000000001 /* BLContactServicePageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLContactServicePageView.h; sourceTree = "<group>"; };
 		0A0A00B82D00AA0000000001 /* BLContactServicePageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLContactServicePageView.m; sourceTree = "<group>"; };
+		0A0A00BA2D00AA0000000001 /* BLVideoURLProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLVideoURLProvider.h; sourceTree = "<group>"; };
+		0A0A00BB2D00AA0000000001 /* BLVideoURLProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLVideoURLProvider.m; sourceTree = "<group>"; };
+		0A0A00BD2D00AA0000000001 /* Videos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Videos; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +214,7 @@
 				0A0A00172D00AA0000000001 /* Info.plist */,
 				0A0A00192D00AA0000000001 /* LaunchScreen.storyboard */,
 				0A0A00182D00AA0000000001 /* Assets.xcassets */,
+				0A0A00BD2D00AA0000000001 /* Videos */,
 			);
 			path = "Bilibili-iOS-Demo";
 			sourceTree = "<group>";
@@ -288,6 +294,8 @@
 				0A0A00502D00AA0000000001 /* BLFilmProgressCardView.m */,
 				0A0A00582D00AA0000000001 /* BLPlayerCore.h */,
 				0A0A00592D00AA0000000001 /* BLPlayerCore.m */,
+				0A0A00BA2D00AA0000000001 /* BLVideoURLProvider.h */,
+				0A0A00BB2D00AA0000000001 /* BLVideoURLProvider.m */,
 				0A0A00552D00AA0000000001 /* BLPlayerRenderView.h */,
 				0A0A00562D00AA0000000001 /* BLPlayerRenderView.m */,
 				0A0A00612D00AA0000000001 /* BLPlaybackSpeedToastView.h */,
@@ -385,6 +393,7 @@
 			files = (
 				0A0A00052D00AA0000000001 /* Assets.xcassets in Resources */,
 				0A0A000E2D00AA0000000001 /* LaunchScreen.storyboard in Resources */,
+				0A0A00BE2D00AA0000000001 /* Videos in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +420,7 @@
 				0A0A00542D00AA0000000001 /* BLFilmPageView.m in Sources */,
 				0A0A00572D00AA0000000001 /* BLPlayerRenderView.m in Sources */,
 				0A0A005A2D00AA0000000001 /* BLPlayerCore.m in Sources */,
+				0A0A00BC2D00AA0000000001 /* BLVideoURLProvider.m in Sources */,
 				0A0A00652D00AA0000000001 /* BLPlaybackSpeedToastView.m in Sources */,
 				0A0A00662D00AA0000000001 /* BLPlaybackSettingsPanelView.m in Sources */,
 				0A0A00692D00AA0000000001 /* BLPausedCompactPlayerBarView.m in Sources */,

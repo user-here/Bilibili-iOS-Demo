@@ -43,11 +43,7 @@ static void *BLPlayerCoreTimeControlContext = &BLPlayerCoreTimeControlContext;
     [self updateState:BLPlayerPlaybackStateLoading];
     [self removeCurrentItemObservers];
 
-    NSDictionary *headers = @{
-        @"User-Agent": @"Mozilla/5.0",
-        @"ngrok-skip-browser-warning": @"1"
-    };
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:URL options:@{@"AVURLAssetHTTPHeaderFieldsKey": headers}];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:URL options:nil];
     AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:asset];
     self.currentItem = item;
     [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:BLPlayerCoreItemStatusContext];

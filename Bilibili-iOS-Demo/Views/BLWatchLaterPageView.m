@@ -1,11 +1,10 @@
 #import "BLWatchLaterPageView.h"
+#import "BLVideoURLProvider.h"
 #import <QuartzCore/QuartzCore.h>
 
 static UIColor *BLWatchPink(void) { return [UIColor colorWithRed:0.93 green:0.33 blue:0.57 alpha:1.0]; }
 static UIColor *BLWatchText(void) { return [UIColor colorWithRed:0.14 green:0.13 blue:0.15 alpha:1.0]; }
 static UIColor *BLWatchSubText(void) { return [UIColor colorWithWhite:0.58 alpha:1.0]; }
-static NSString * const BLWatchFallbackVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
-
 @implementation BLWatchLaterItem
 
 + (instancetype)itemWithTitle:(NSString *)title author:(NSString *)author views:(NSString *)views danmaku:(NSString *)danmaku durationText:(NSString *)durationText progressText:(NSString *)progressText progress:(CGFloat)progress finished:(BOOL)finished seed:(NSInteger)seed videoURLString:(NSString *)videoURLString {
@@ -627,8 +626,8 @@ static NSString * const BLWatchFallbackVideoURLString = @"https://flyable-overla
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         return;
     }
-    NSString *URLString = item.videoURLString.length > 0 ? item.videoURLString : BLWatchFallbackVideoURLString;
-    NSURL *URL = [NSURL URLWithString:URLString];
+    NSString *URLString = item.videoURLString.length > 0 ? item.videoURLString : BLDefaultLocalVideoRelativePath;
+    NSURL *URL = [BLVideoURLProvider videoURLForRelativePath:URLString];
     if (URL != nil && self.videoSelected) {
         self.videoSelected(URL, item.title, item.author);
     }

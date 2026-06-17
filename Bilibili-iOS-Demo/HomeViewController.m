@@ -12,6 +12,7 @@
 #import "Views/BLMallSearchPageView.h"
 #import "Views/BLMallCouponPageView.h"
 #import "Views/BLMinePageView.h"
+#import "Views/BLVideoURLProvider.h"
 #import "Views/BLHistoryPageView.h"
 #import "Views/BLFavoritePageView.h"
 #import "Views/BLOfflineCachePageView.h"
@@ -28,8 +29,6 @@ static UIColor *BLPink(void) {
 static UIColor *BLText(void) {
     return [UIColor colorWithRed:0.16 green:0.16 blue:0.18 alpha:1.0];
 }
-
-static NSString * const BLDefaultVideoURLString = @"https://flyable-overlay-alone.ngrok-free.dev/files/08058f33c8ab0aa4b78ce19063e7510f.mp4";
 
 @interface BLVideoItem : NSObject
 @property (nonatomic, copy) NSString *title;
@@ -861,7 +860,7 @@ static NSString * const BLDefaultVideoURLString = @"https://flyable-overlay-alon
 }
 
 - (void)openPlayerFromCard:(UIButton *)sender {
-    NSURL *URL = [NSURL URLWithString:BLDefaultVideoURLString];
+    NSURL *URL = [BLVideoURLProvider defaultVideoURL];
     if (URL == nil) {
         return;
     }
